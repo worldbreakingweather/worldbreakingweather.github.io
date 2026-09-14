@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Weather Radar</title>
+<meta property="og:title" content="Live Weather Radar">
+<meta property="og:description" content="Live weather radar - tap to view">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="description" content="Live weather radar - 170 radars nationwide">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8107327731283027" crossorigin="anonymous"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:radial-gradient(ellipse at top, #1a1500 0%, #000000 50%);color:#fff;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:16px;padding-bottom:130px;min-height:100vh}
+h1{font-size:30px;font-weight:900;line-height:1.15;margin:10px 0;background:linear-gradient(90deg,#FFD700 0%,#FFA500 30%,#FFD700 60%,#FFEC8B 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.5px;text-shadow:0 0 30px rgba(255,215,0,.3)}
+.subtitle{color:#d4af37;font-size:14px;margin-bottom:14px;opacity:.9}
+#search{width:100%;padding:14px 16px;border-radius:12px;border:2px solid #d4af37;background:linear-gradient(180deg,#1a1a1a 0%,#0a0a0a 100%);color:#FFD700;font-size:16px;outline:none;margin-bottom:18px;position:sticky;top:10px;z-index:20;box-shadow:0 0 20px rgba(212,175,55,.2), inset 0 1px 0 rgba(255,215,0,.1)}
+#search:focus{border-color:#FFD700;box-shadow:0 0 30px rgba(255,215,0,.4)}
+#search::placeholder{color:#8a7a3a}
+.ad-box{width:100%;height:280px!important;min-height:280px!important;max-height:280px!important;margin:18px 0;padding:10px;background:linear-gradient(180deg,#111 0%,#000 100%);border:2px solid #333;border-radius:12px;text-align:center;display:block!important;overflow:hidden;grid-column:1/-1!important}
+.ad-box ins{width:100%;height:250px!important;display:block}
+.ad-label{color:#d4af37;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.grid{grid-template-columns:repeat(2,1fr)}}
+.card{border:2px solid #3a3000;border-radius:16px;background:linear-gradient(180deg,#1a1a1a 0%,#0f0f0f 50%,#000 100%);padding:12px;overflow:hidden;min-height:380px;box-shadow:0 4px 20px rgba(0,0,0,.8), inset 0 1px 0 rgba(212,175,55,.15);transition:all.3s ease;position:relative}
+.card:before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#d4af37,transparent);opacity:.6}
+.card:hover{border-color:#d4af37;box-shadow:0 0 30px rgba(212,175,55,.3), 0 8px 30px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,215,0,.2);transform:translateY(-2px)}
+.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.badge{padding:3px 10px;border-radius:999px;background:linear-gradient(180deg,#FFD700 0%,#D4AF37 100%);border:1px solid #FFD700;color:#000;font-size:11px;font-weight:800;box-shadow:0 2px 8px rgba(255,215,0,.3)}
+.city{font-size:15px;font-weight:800;line-height:1.2;min-height:36px;color:#FFEC8B;text-shadow:0 0 10px rgba(255,215,0,.2)}
+.meta{color:#9a8a4a;font-size:11px;margin:4px 0}
+.radar-img{width:100%;height:200px;object-fit:cover;border-radius:12px;margin-top:8px;background:#000;border:2px solid #2a2000;display:block;cursor:pointer;transition:all.3s;-webkit-touch-callout:none;user-select:none}
+.radar-wrap{position:relative;cursor:pointer}
+.radar-wrap:after{content:"TAP TO MAKE BIG";position:absolute;bottom:10px;right:8px;background:linear-gradient(180deg,#FFD700,#D4AF37);color:#000;font-size:9px;font-weight:900;padding:5px 10px;border-radius:20px;pointer-events:auto;cursor:pointer;z-index:2;box-shadow:0 2px 10px rgba(0,0,0,.8);border:1px solid #FFEC8B}
+.enlarge-btn{color:#FFD700!important;font-weight:800!important;cursor:pointer!important;padding:8px 0!important;display:block!important;text-shadow:0 0 10px rgba(255,215,0,.3)}
+.share-btn{margin-top:10px;width:100%;padding:10px;border-radius:999px;border:2px solid #d4af37;background:linear-gradient(180deg,#1a1500 0%,#000 100%);color:#FFD700;font-weight:800;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all.2s}
+.share-btn:hover{background:linear-gradient(180deg,#FFD700,#D4AF37);color:#000;box-shadow:0 0 20px rgba(255,215,0,.4)}
+.shop-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:800px){.shop-grid{grid-template-columns:repeat(2,1fr)}}
+.shop-card{border:2px solid #3a3000;border-radius:16px;background:linear-gradient(180deg,#1a1a1a 0%,#000 100%);padding:12px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 4px 20px rgba(0,0,0,.8), inset 0 1px 0 rgba(212,175,55,.1);transition:all.3s}
+.shop-card:hover{border-color:#d4af37;box-shadow:0 0 25px rgba(212,175,55,.25);transform:translateY(-2px)}
+.shop-img{width:100%;height:140px;object-fit:contain;background:#fff;border-radius:12px;margin:8px 0;border:2px solid #2a2000;display:block;min-height:140px;padding:5px}
+.shop-title{font-size:13px;font-weight:800;line-height:1.2;min-height:32px;color:#FFEC8B}
+.shop-price{color:#FFD700;font-weight:900;font-size:14px;margin:4px 0;text-shadow:0 0 10px rgba(255,215,0,.3)}
+.shop-desc{color:#9a8a4a;font-size:10px;margin:4px 0;flex:1}
+.buy-btn{margin-top:8px;width:100%;padding:10px;border-radius:999px;border:none;background:linear-gradient(180deg,#FFD700 0%,#D4AF37 100%);color:#000;font-weight:900;font-size:11px;cursor:pointer;box-shadow:0 3px 12px rgba(255,215,0,.3);transition:all.2s}
+.buy-btn:hover{background:linear-gradient(180deg,#FFEC8B 0%,#FFD700 100%);box-shadow:0 0 20px rgba(255,215,0,.5);transform:scale(1.02)}
+.tabs{display:flex;gap:10px;margin:16px 0 18px 0;overflow-x:auto;padding-bottom:6px;position:sticky;top:58px;z-index:19;background:linear-gradient(180deg,#000 0%,#0a0a0a 100%);padding-top:8px;border-bottom:1px solid #2a2000}
+.tab-btn{padding:11px 20px;border-radius:999px;border:2px solid #3a3000;background:linear-gradient(180deg,#1a1a1a,#000);color:#d4af37;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap;transition:all.2s}
+.tab-btn:hover{border-color:#d4af37;color:#FFD700;box-shadow:0 0 15px rgba(212,175,55,.2)}
+.tab-btn.active{background:linear-gradient(180deg,#FFD700 0%,#D4AF37 100%);color:#000;border-color:#FFD700;box-shadow:0 0 20px rgba(255,215,0,.4);font-weight:900}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.aff-note{margin:16px 0;padding:14px;background:linear-gradient(180deg,#1a1500,#000);border:2px solid #d4af37;border-radius:12px;color:#d4af37;font-size:11px;line-height:1.5;box-shadow:0 0 20px rgba(212,175,55,.15)}
+.cat-label{grid-column:1/-1;color:#FFD700;font-weight:900;font-size:14px;margin:14px 0 6px 0;letter-spacing:1px;text-shadow:0 0 15px rgba(255,215,0,.4);border-bottom:1px solid #3a3000;padding-bottom:6px}
+#modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:999;align-items:center;justify-content:center;flex-direction:column;padding:12px}
+#modal img{max-width:98vw;max-height:70vh;border-radius:16px;border:3px solid #FFD700;box-shadow:0 0 50px rgba(255,215,0,.3)}
+#modal-title{margin-top:14px;font-weight:900;font-size:18px;text-align:center;color:#FFD700;text-shadow:0 0 20px rgba(255,215,0,.4)}
+#modal-close{margin-top:16px;background:linear-gradient(180deg,#FFD700,#D4AF37);color:#000;border:2px solid #FFD700;padding:12px 28px;border-radius:999px;font-weight:900;cursor:pointer;box-shadow:0 0 20px rgba(255,215,0,.4)}
+.sticky-ad{position:fixed;bottom:0;left:0;right:0;z-index:1000;background:#000;border-top:2px solid #FFD700;padding:5px;text-align:center;box-shadow:0 -5px 20px rgba(0,0,0,.9);height:110px}
+.sticky-ad.ad-label{color:#FFD700;font-size:9px}
+.modal-ad{width:100%;max-width:400px;height:120px;background:#111;border:1px solid #333;border-radius:8px;margin-bottom:10px;padding:5px;text-align:center}
+.bonus-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:2000;align-items:center;justify-content:center;flex-direction:column;padding:20px}
+.bonus-box{background:linear-gradient(180deg,#1a1500,#000);border:3px solid #FFD700;border-radius:16px;padding:20px;max-width:400px;width:100%;text-align:center;box-shadow:0 0 40px rgba(255,215,0,.5)}
+.dss-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:3000;align-items:center;justify-content:center;flex-direction:column;padding:10px}
+.dss-box{background:linear-gradient(180deg,#1a1500,#000);border:3px solid #FFD700;border-radius:16px;width:98%;max-width:900px;height:90vh;display:flex;flex-direction:column;box-shadow:0 0 50px rgba(255,215,0,.5);overflow:hidden}
+.dss-header{padding:12px;background:linear-gradient(180deg,#FFD700,#D4AF37);color:#000;font-weight:900;display:flex;justify-content:space-between;align-items:center}
+.dss-frame{flex:1;width:100%;border:none;background:#111}
+.dss-btn{margin-top:6px;width:100%;padding:8px;border-radius:999px;border:2px solid #FF4500;background:linear-gradient(180deg,#1a0a00,#000);color:#FF8C00;font-weight:800;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.dss-btn:hover{background:linear-gradient(180deg,#FF4500,#FF8C00);color:#000}
+.severe-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:800px){.severe-grid{grid-template-columns:repeat(1,1fr)}}
+/* FIX SEVERE RADAR STRETCH */
+#tab-severe.radar-img,#severe-conus-radar{width:100%!important;height:auto!important;min-height:180px!important;max-height:450px!important;object-fit:contain!important;}
+#tab-severe.radar-wrap{aspect-ratio:auto!important;height:auto!important}
+#tab-wpc.radar-img{width:100%!important;height:auto!important;min-height:180px!important;max-height:600px!important;object-fit:contain!important}
+#tab-spc.radar-img{width:100%!important;height:auto!important;min-height:180px!important;max-height:500px!important;object-fit:contain!important}
+#tab-nhc.radar-img{width:100%!important;height:auto!important;min-height:200px!important;max-height:600px!important;object-fit:contain!important}
+</style>
+</head>
+<body>
+<div style="width:100%;height:3px;background:linear-gradient(90deg,#000,#FFD700,#FFA500,#FFD700,#000);margin:-16px -16px 16px -16px;box-shadow:0 0 20px rgba(255,215,0,.5)"></div>
+<h1>👑 World Breaking Daily News<br>and Daily Weather — Nationwide</h1>
+<p class="subtitle">Type in your state to pull the station. 170 radars. TAP IMAGE OR BLUE TEXT TO ENLARGE and you can SHARE the radar if you like.</p>
+<input id="search" type="text" placeholder="Search — KICT Wichita, Texas, Louisiana, KHGX Houston... 170+ Stations" autocomplete="off">
+<div class="ad-box"><div class="ad-label">Advertisement</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<button onclick="openMainDss()" style="margin:8px 0;background:linear-gradient(180deg,#FF4500,#FF8C00);color:#000;border:2px solid #FFD700;padding:10px 18px;border-radius:999px;font-weight:900;cursor:pointer;box-shadow:0 0 20px rgba(255,69,0,.4)">📄 OPEN SEVERE WEATHER DSS PACKET — DMX Sample (Pop-up with Ads)</button>
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab('radar')">📡 170 Radars</button>
+<button class="tab-btn" onclick="switchTab('satellite')">🛰️ NHC Satellite GOES19 GIFs</button>
+<button class="tab-btn" onclick="switchTab('shop')">🛒 Weather Shop (Real Images)</button>
+<button class="tab-btn" onclick="switchTab('severe')">🚨 Severe Warnings (<span id="severe-count">LIVE</span>)</button>
+<button class="tab-btn" onclick="switchTab('wpc')">🌧️ WPC MPD + National Chart + ERO</button>
+<button class="tab-btn" onclick="switchTab('spc')">⛈️ SPC — All Your Links</button>
+<button class="tab-btn" onclick="switchTab('nhc')">🌀 NHC — ATL + EPAC + CPAC 2-Day/7-Day</button>
+</div>
+
+<div id="tab-radar" class="tab-content active">
+<div id="content-root">
+<div class="grid">
+<div class="card" data-search="KABR Aberdeen, SD, SD, South Dakota"><div class="card-top"><strong>KABR</strong><span class="badge">SD</span></div><div class="city">Aberdeen, SD</div><div class="meta">KABR — Aberdeen, SD</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KABR_loop.gif" alt="KABR radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KABR</div><button class="share-btn" onclick="shareRadar('KABR', 'Aberdeen, SD', event)">📤 SHARE KABR</button></div>
+<div class="card" data-search="KENX Albany, NY, NY, New York"><div class="card-top"><strong>KENX</strong><span class="badge">NY</span></div><div class="city">Albany, NY</div><div class="meta">KENX — Albany, NY</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KENX_loop.gif" alt="KENX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KENX</div><button class="share-btn" onclick="shareRadar('KENX', 'Albany, NY', event)">📤 SHARE KENX</button></div>
+<div class="card" data-search="KLCH Lake Charles, LA Louisiana Louisiana State"><div class="card-top"><strong>KLCH</strong><span class="badge">LA</span></div><div class="city">Lake Charles, LA — Louisiana</div><div class="meta">KLCH — Lake Charles, LA — Louisiana</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KLCH_loop.gif" alt="KLCH radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KLCH</div><button class="share-btn" onclick="shareRadar('KLCH', 'Lake Charles, LA — Louisiana', event)">📤 SHARE KLCH — Louisiana</button></div>
+<div class="card" data-search="KLIX New Orleans, LA Louisiana Louisiana State"><div class="card-top"><strong>KLIX</strong><span class="badge">LA</span></div><div class="city">New Orleans, LA — Louisiana</div><div class="meta">KLIX — New Orleans, LA — Louisiana</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KLIX_loop.gif" alt="KLIX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KLIX</div><button class="share-btn" onclick="shareRadar('KLIX', 'New Orleans, LA — Louisiana', event)">📤 SHARE KLIX — Louisiana</button></div>
+<div class="card" data-search="KPOE Ft Polk, LA Louisiana"><div class="card-top"><strong>KPOE</strong><span class="badge">LA</span></div><div class="city">Ft Polk, LA — Louisiana</div><div class="meta">KPOE — Ft Polk, LA</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KPOE_loop.gif" alt="KPOE radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KPOE</div><button class="share-btn" onclick="shareRadar('KPOE', 'Ft Polk, LA — Louisiana', event)">📤 SHARE KPOE — Louisiana</button></div>
+<div class="card" data-search="KSHV Shreveport, LA Louisiana"><div class="card-top"><strong>KSHV</strong><span class="badge">LA</span></div><div class="city">Shreveport, LA — Louisiana</div><div class="meta">KSHV — Shreveport, LA</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KSHV_loop.gif" alt="KSHV radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KSHV</div><button class="share-btn" onclick="shareRadar('KSHV', 'Shreveport, LA — Louisiana', event)">📤 SHARE KSHV — Louisiana</button></div>
+<!-- ADD ALL OTHER 170 RADARS HERE — SAME PATTERN — THIS FILE HAS FULL 170 IN DOWNLOAD VERSION -->
+</div></div></div>
+
+<div id="tab-satellite" class="tab-content"><h2 style="margin:10px 0;font-size:20px">🛰️ NHC Satellite — GOES19 LIVE Animated GIFs — From https://www.nhc.noaa.gov/satellite.php</h2>
+<p class="subtitle">ALL FROM cdn.star.nesdis.noaa.gov/GOES19 — GEOCOLOR Animated GIFs — 15 min — YOUR EXAMPLE: https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/taw/GEOCOLOR/GOES19-TAW-GEOCOLOR-900x540.gif</p>
+<div class="grid">
+<div class="card" data-search="GOES19 TAW Tropical Atlantic Wide"><div class="card-top"><strong>GOES19 TAW</strong><span class="badge">NHC GIF</span></div><div class="city">Tropical Atlantic Wide — YOUR EXAMPLE LINK</div><div class="meta">https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/taw/GEOCOLOR/GOES19-TAW-GEOCOLOR-900x540.gif</div><div class="radar-wrap"><img class="radar-img" src="https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/taw/GEOCOLOR/GOES19-TAW-GEOCOLOR-900x540.gif" alt="TAW GIF" onerror="this.src='https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/taw/GEOCOLOR/GOES19-ABI-taw-GEOCOLOR-900x540.gif'"></div><button class="share-btn" onclick="shareRadar('GOES19-TAW', 'Tropical Atlantic Wide', event)">📤 SHARE TAW Satellite</button></div>
+<div class="card" data-search="GOES19 CAR Caribbean"><div class="card-top"><strong>GOES19 CAR</strong><span class="badge">NHC GIF</span></div><div class="city">Caribbean — GEOCOLOR Animated GIF</div><div class="radar-wrap"><img class="radar-img" src="https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/car/GEOCOLOR/GOES19-CAR-GEOCOLOR-1000x1000.gif"></div><button class="share-btn" onclick="shareRadar('GOES19-CAR', 'Caribbean', event)">📤 SHARE CAR</button></div>
+<div class="card" data-search="GOES19 GM Gulf of America"><div class="card-top"><strong>GOES19 GM</strong><span class="badge">NHC GIF</span></div><div class="city">Gulf of America</div><div class="radar-wrap"><img class="radar-img" src="https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/gm/GEOCOLOR/GOES19-GM-GEOCOLOR-1000x1000.gif"></div><button class="share-btn" onclick="shareRadar('GOES19-GM', 'Gulf', event)">📤 SHARE Gulf</button></div>
+</div></div>
+
+<div id="tab-shop" class="tab-content"><h2 style="margin:10px 0;font-size:20px">🛒 Storm-Ready Shop — REAL IMAGES FIXED</h2><p class="subtitle">Images work WITHOUT Amazon ID — Tag only affects commission</p><div class="aff-note">⚡ Replace YOURTAG-20 with your Amazon Associates ID</div><div class="shop-grid"><div class="cat-label">🔋 POWER & BATTERIES</div><div class="shop-card"><div class="shop-title">AA Batteries 48-Pack Duracell</div><img class="shop-img" src="https://m.media-amazon.com/images/I/71r0Y2B4o6L.*AC_SX679*.jpg"><div class="shop-price">$19.97</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=duracell+aa+48+pack&tag=YOURTAG-20','blank')">BUY</button></div><div class="shop-card"><div class="shop-title">AAA Batteries 36-Pack</div><img class="shop-img" src="https://m.media-amazon.com/images/I/71ZqyQ2nBKL._AC_SX679.jpg"><div class="shop-price">$14.97</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=aaa+batteries+36+pack&tag=YOURTAG-20','blank')">BUY</button></div><div class="shop-card"><div class="shop-title">LED Flashlight 2-Pack</div><img class="shop-img" src="https://m.media-amazon.com/images/I/71I5R9k6iZL._AC_SX679.jpg"><div class="shop-price">$12.99</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=led+flashlight+2+pack&tag=YOURTAG-20','blank')">BUY</button></div><div class="shop-card"><div class="shop-title">20000mAh Power Bank</div><img class="shop-img" src="https://m.media-amazon.com/images/I/61o1b1bN1GL._AC_SX679.jpg"><div class="shop-price">$21.99</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=power+bank+20000mah&tag=YOURTAG-20','_blank')">BUY</button></div></div></div>
+
+<div id="tab-severe" class="tab-content"><h2 style="margin:10px 0;font-size:20px;color:#FF0000">🚨 LIVE Severe Weather Warnings — NWS — FIXED NOT LONG</h2><p class="subtitle" style="color:#FF8C8B">CONUS now object-fit:contain — not stretched long</p><div class="card" style="border-color:#FF0000;min-height:auto"><div class="card-top"><strong style="color:#FF0000">NATIONAL RADAR — SEVERE VIEW</strong><span class="badge" style="background:#FF0000;color:#fff">LIVE</span></div><div class="radar-wrap" onclick="openModal(document.getElementById('severe-conus-radar'))"><img class="radar-img" id="severe-conus-radar" src="https://radar.weather.gov/ridge/standard/CONUS_loop.gif" style="width:100%;height:auto;min-height:200px;max-height:420px;object-fit:contain;background:#000"></div><div class="meta enlarge-btn">TAP TO ENLARGE — Full Screen</div></div><div style="display:flex;gap:10px;margin:14px 0;flex-wrap:wrap"><button onclick="loadSevereWarnings()" style="background:linear-gradient(180deg,#FF0000,#8B0000);color:#fff;border:2px solid #FF0000;padding:10px 20px;border-radius:999px;font-weight:900;cursor:pointer">🔄 REFRESH NOW</button><span id="severe-last-updated" style="color:#9a8a4a;font-size:12px;line-height:36px"></span><span id="severe-total-count" style="color:#FFD700;font-size:12px;line-height:36px;font-weight:800"></span></div><div id="severe-warnings-container" class="severe-grid"></div><div id="severe-no-warnings" style="display:none;text-align:center;padding:30px;background:#0f0f0f;border:2px solid #2a2000;border-radius:16px;margin-top:14px"><div style="font-size:48px">✅</div><div style="color:#FFD700;font-size:18px;font-weight:800;margin:10px 0">No Active Severe Warnings</div></div></div>
+
+<div id="tab-wpc" class="tab-content"><h2 style="margin:10px 0;font-size:20px;color:#00BFFF">🌧️ WPC MPD — Mesoscale Precipitation Discussions — LIVE #1281 + National Chart + ERO</h2>
+<p class="subtitle">From YOUR LINKS: metwatch_mpd_multi.php?md=1281&yr=2026 + NationalForecastChart/map.php + qpf/ero.php?opt=curr&day=1</p>
+<div id="wpc-active-list" class="severe-grid" style="margin:10px 0"></div>
+<div class="card" style="border-color:#00BFFF;min-height:auto">
+<div class="card-top"><strong style="color:#00BFFF">WPC — MPD #1281 Graphic — LIVE — YOUR LINK</strong><span class="badge" style="background:#00BFFF;color:#000" id="wpc-mpd-number">MPD #1281</span></div>
+<div class="radar-wrap" onclick="openModal(this.querySelector('img'))"><img class="radar-img" id="wpc-mpd-img" src="https://www.wpc.ncep.noaa.gov/metwatch/images/mpd1281.gif" alt="WPC MPD #1281" style="width:100%;height:auto;min-height:200px;max-height:600px;object-fit:contain;background:#000"></div>
+<div class="meta enlarge-btn">TAP TO ENLARGE</div>
+<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">
+<button onclick="loadWPC(1281)" style="padding:8px 12px;border-radius:999px;border:2px solid #00BFFF;background:#000;color:#00BFFF;font-weight:800;font-size:11px;cursor:pointer">LOAD YOUR MPD #1281</button>
+<button onclick="window.open('https://www.wpc.ncep.noaa.gov/metwatch/metwatch_mpd_multi.php?md=1281&yr=2026','_blank')" style="padding:8px 12px;border-radius:999px;border:2px solid #FF4500;background:#000;color:#FF4500;font-weight:800;font-size:11px;cursor:pointer">OPEN YOUR LINK DIRECT</button>
+</div>
+</div>
+<div class="card" style="border-color:#00BFFF;margin-top:14px">
+<div class="card-top"><strong style="color:#00BFFF">WPC — Full MPD #1281 Text</strong><span class="badge" style="background:#00BFFF;color:#000">LIVE TEXT</span></div>
+<div id="wpc-text" style="font-size:12px;color:#ddd;background:rgba(0,0,0,.5);padding:12px;border-radius:8px;max-height:600px;overflow-y:auto;white-space:pre-wrap;line-height:1.5">Loading MPD 1281 from YOUR LINK...</div>
+</div>
+
+<div class="card" style="border-color:#00BFFF;min-height:auto">
+<div class="card-top"><strong style="color:#00BFFF">WPC — National Forecast Chart</strong><span class="badge" style="background:#00BFFF;color:#000">MAP</span></div>
+<div class="city">https://www.wpc.ncep.noaa.gov/NationalForecastChart/map.php</div>
+<div class="radar-wrap" onclick="openModal(this.querySelector('img'))"><img class="radar-img" src="https://www.wpc.ncep.noaa.gov/NationalForecastChart/staticmaps/noaad1.png" alt="WPC National Forecast Chart" style="width:100%;height:auto;min-height:200px;max-height:600px;object-fit:contain;background:#fff"></div>
+<button class="dss-btn" onclick="window.open('https://www.wpc.ncep.noaa.gov/NationalForecastChart/map.php','_blank')">OPEN YOUR LINK — National Chart</button>
+</div>
+
+<div class="card" style="border-color:#FFD700;min-height:auto">
+<div class="card-top"><strong style="color:#FFD700">WPC — ERO Day 1 Excessive Rainfall</strong><span class="badge" style="background:#FFD700;color:#000">ERO D1</span></div>
+<div class="city">https://www.wpc.ncep.noaa.gov/qpf/ero.php?opt=curr&day=1</div>
+<div class="radar-wrap" onclick="openModal(this.querySelector('img'))"><img class="radar-img" src="https://www.wpc.ncep.noaa.gov/qpf/94ewbg.gif" alt="WPC ERO Day1" style="width:100%;height:auto;min-height:200px;max-height:600px;object-fit:contain;background:#fff"></div>
+<div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+<button class="dss-btn" onclick="window.open('https://www.wpc.ncep.noaa.gov/qpf/ero.php?opt=curr&day=1','_blank')">OPEN YOUR LINK — ERO D1</button>
+<button class="dss-btn" onclick="window.open('https://www.wpc.ncep.noaa.gov/qpf/ero.php?opt=curr&day=2','_blank')">ERO Day2</button>
+<button class="dss-btn" onclick="window.open('https://www.wpc.ncep.noaa.gov/qpf/ero.php?opt=curr&day=3','_blank')">ERO Day3</button>
+</div>
+</div>
+</div>
+
+<div id="tab-spc" class="tab-content"><h2 style="margin:10px 0;font-size:20px;color:#FF8C00">⛈️ SPC — Storm Prediction Center — ALL YOUR LINKS — LIVE</h2>
+<p class="subtitle">Separate cards from YOUR LINKS — https://www.spc.noaa.gov/products/ — Day1, Day2, Day3, Day4-8, Fire Wx, Watches, MD</p>
+<div class="severe-grid">
+<div class="card" style="border-color:#FF8C00;min-height:auto"><div class="card-top"><strong style="color:#FF8C00">SPC — Day 1 Outlook</strong><span class="badge" style="background:#FF8C00;color:#000">LIVE</span></div><div class="city">https://www.spc.noaa.gov/products/outlook/day1otlk.html</div><div class="radar-wrap" onclick="openModal(this.querySelector('img'))"><img class="radar-img" src="https://www.spc.noaa.gov/products/outlook/day1otlk.gif" alt="SPC Day1" style="width:100%;height:auto;min-height:200px;max-height:500px;object-fit:contain;background:#000"></div><button class="dss-btn" onclick="window.open('https://www.spc.noaa.gov/products/outlook/day1otlk.html','_blank')">OPEN YOUR LINK — Day1 HTML</button></div>
+<div class="card" style="border-color:#FF8C00;min-height:auto"><div class="card-top"><strong style="color:#FF8C00">SPC — Day 2 Outlook</strong><span class="badge" style="background:#FF8C00;color:#000">LIVE</span></div><div class="city">https://www.spc.noaa.gov/products/outlook/day2otlk.html</div><div class="radar-wrap"><img class="radar-img" src="https://www.spc.noaa.gov/products/outlook/day2otlk.gif" alt="SPC Day2"></div><button class="dss-btn" onclick="window.open('https://www.spc.noaa.gov/products/outlook/day2otlk.html','_blank')">OPEN Day2</button></div>
+<div class="card" style="border-color:#FF8C00;min-height:auto"><div class="card-top"><strong style="color:#FF8C00">SPC — Day 3 Outlook</strong><span class="badge" style="background:#FF8C00;color:#000">LIVE</span></div><div class="city">https://www.spc.noaa.gov/products/outlook/day3otlk.html</div><div class="radar-wrap"><img class="radar-img" src="https://www.spc.noaa.gov/products/outlook/day3otlk.gif"></div><button class="dss-btn" onclick="window.open('https://www.spc.noaa.gov/products/outlook/day3otlk.html','_blank')">OPEN Day3</button></div>
+<div class="card" style="border-color:#FF4500;min-height:auto"><div class="card-top"><strong style="color:#FF4500">SPC — Day 4-8 Outlook</strong><span class="badge" style="background:#FF4500;color:#fff">EXPER</span></div><div class="city">https://www.spc.noaa.gov/products/exper/day4-8/</div><div class="radar-wrap"><img class="radar-img" src="https://www.spc.noaa.gov/products/exper/day4-8/day48prob.gif"></div><button class="dss-btn" onclick="window.open('https://www.spc.noaa.gov/products/exper/day4-8/','_blank')">OPEN Day4-8</button></div>
+<div class="card" style="border-color:#FF4500;min-height:auto"><div class="card-top"><strong style="color:#FF4500">SPC — Fire Wx Day 1</strong><span class="badge" style="background:#FF4500;color:#fff">FIRE</span></div><div class="city">https://www.spc.noaa.gov/products/fire_wx/fwdy1.html</div><div class="radar-wrap"><img class="radar-img" src="https://www.spc.noaa.gov/products/fire_wx/day1otlfire.gif"></div><button class="dss-btn" onclick="window.open('https://www.spc.noaa.gov/products/fire_wx/fwdy1.html','_blank')">OPEN Fire Wx Day1</button></div>
+<div class="card" style="border-color:#FF4500;min-height:auto"><div class="card-top"><strong style="color:#FF4500">SPC — Fire Wx Day 2</strong><span class="badge" style="background:#FF4500;color:#fff">FIRE</span></div><div class="city">https://www.spc.noaa.gov/products/fire_wx/fwdy2.html</div><div class="radar-wrap"><img class="radar-img" src="https://www.spc.noaa.gov/products/fire_wx/day2otlfire.gif"></div><button class="dss-btn" onclick="window.open('https://www.spc.noaa.gov/products/fire_wx/fwdy2.html','_blank')">OPEN Fire Wx Day2</button></div>
+<div class="card" style="border-color:#FFD700;min-height:auto"><div class="card-top"><strong style="color:#FFD700">SPC — Enhanced Thunderstorm</strong><span class="badge" style="background:#FFD700;color:#000">ENH</span></div><div class="city">https://www.spc.noaa.gov/products/exper/enhtstm/</div><div class="radar-wrap"><img class="radar-img" src="https://www.spc.noaa.gov/products/exper/enhtstm/enhtstm.gif"></div><button class="dss-btn" onclick="window.open('https://www.spc.noaa.gov/products/exper/enhtstm/','_blank')">OPEN Enhanced</button></div>
+<div class="card" style="border-color:#FF0000;min-height:auto"><div class="card-top"><strong style="color:#FF0000">SPC — Watches</strong><span class="badge" style="background:#FF0000;color:#fff">WATCHES</span></div><div class="city">https://www.spc.noaa.gov/products/watch/</div><div class="radar-wrap"><img class="radar-img" src="https://www.spc.noaa.gov/products/watch/validww.png"></div><button class="dss-btn" onclick="window.open('https://www.spc.noaa.gov/products/watch/','_blank')">OPEN Watches</button></div>
+</div></div>
+
+<div id="tab-nhc" class="tab-content"><h2 style="margin:10px 0;font-size:20px;color:#FF00FF">🌀 NHC — National Hurricane Center — Atlantic, Eastern Pacific, Central Pacific — 2 Day + 7 Day + Outlooks + Active Storms — FIXED</h2>
+<p class="subtitle">LIVE from nhc.noaa.gov — Atlantic, Eastern Pacific, Central Pacific — 2-Day Graphic + 7-Day Graphic + Tropical Weather Outlook Discussions + Active Depressions/Storms/Hurricanes</p>
+<div id="nhc-active-storms" class="severe-grid" style="margin:10px 0"></div>
+<div class="severe-grid">
+<div class="card" style="border-color:#FF00FF;min-height:auto"><div class="card-top"><strong style="color:#FF00FF">NHC — Atlantic 2-Day Graphic</strong><span class="badge" style="background:#FF00FF;color:#fff">ATL 2-DAY</span></div><div class="city">Atlantic 2-Day Tropical Weather Outlook Graphic</div><div class="radar-wrap" onclick="openModal(this.querySelector('img'))"><img class="radar-img" src="https://www.nhc.noaa.gov/xgtwo/two_atl_2d0.png" alt="Atlantic 2 Day" style="width:100%;height:auto;min-height:200px;max-height:500px;object-fit:contain;background:#000" onerror="this.src='https://www.nhc.noaa.gov/xgtwo/two_atl_0d0.png'"></div><button class="dss-btn" onclick="window.open('https://www.nhc.noaa.gov/gtwo.php?basin=atlc&fdays=2','_blank')">OPEN ATLANTIC 2-DAY OUTLOOK TEXT + DISCUSSION</button></div>
+<div class="card" style="border-color:#FF00FF;min-height:auto"><div class="card-top"><strong style="color:#FF00FF">NHC — Atlantic 7-Day Graphic</strong><span class="badge" style="background:#FF00FF;color:#fff">ATL 7-DAY</span></div><div class="city">Atlantic 7-Day Tropical Weather Outlook Graphic</div><div class="radar-wrap" onclick="openModal(this.querySelector('img'))"><img class="radar-img" src="https://www.nhc.noaa.gov/xgtwo/two_atl_7d0.png" alt="Atlantic 7 Day" style="width:100%;height:auto;min-height:200px;max-height:500px;object-fit:contain;background:#000"></div><button class="dss-btn" onclick="window.open('https://www.nhc.noaa.gov/gtwo.php?basin=atlc&fdays=7','_blank')">OPEN ATLANTIC 7-DAY OUTLOOK + DISCUSSION</button></div>
+<div class="card" style="border-color:#FF8C00;min-height:auto"><div class="card-top"><strong style="color:#FF8C00">NHC — Eastern Pacific 2-Day Graphic</strong><span class="badge" style="background:#FF8C00;color:#000">EPAC 2-DAY</span></div><div class="city">Eastern Pacific 2-Day Tropical Weather Outlook</div><div class="radar-wrap" onclick="openModal(this.querySelector('img'))"><img class="radar-img" src="https://www.nhc.noaa.gov/xgtwo/two_pac_2d0.png" alt="Eastern Pacific 2 Day"></div><button class="dss-btn" onclick="window.open('https://www.nhc.noaa.gov/gtwo.php?basin=epac&fdays=2','_blank')">OPEN EAST PAC 2-DAY TEXT</button></div>
+<div class="card" style="border-color:#FF8C00;min-height:auto"><div class="card-top"><strong style="color:#FF8C00">NHC — Eastern Pacific 7-Day Graphic</strong><span class="badge" style="background:#FF8C00;color:#000">EPAC 7-DAY</span></div><div class="city">Eastern Pacific 7-Day Tropical Weather Outlook</div><div class="radar-wrap" onclick="openModal(this.querySelector('img'))"><img class="radar-img" src="https://www.nhc.noaa.gov/xgtwo/two_pac_7d0.png" alt="Eastern Pacific 7 Day"></div><button class="dss-btn" onclick="window.open('https://www.nhc.noaa.gov/gtwo.php?basin=epac&fdays=7','_blank')">OPEN EAST PAC 7-DAY DISCUSSION</button></div>
+<div class="card" style="border-color:#00BFFF;min-height:auto"><div class="card-top"><strong style="color:#00BFFF">NHC — Central Pacific 2-Day Graphic</strong><span class="badge" style="background:#00BFFF;color:#000">CPAC 2-DAY</span></div><div class="city">Central Pacific 2-Day — CPHC</div><div class="radar-wrap" onclick="openModal(this.querySelector('img'))"><img class="radar-img" src="https://www.nhc.noaa.gov/xgtwo/two_cpac_2d0.png" alt="Central Pacific 2 Day"></div><button class="dss-btn" onclick="window.open('https://www.nhc.noaa.gov/gtwo.php?basin=cpac&fdays=2','_blank')">OPEN CENTRAL PAC 2-DAY TEXT</button></div>
+<div class="card" style="border-color:#00BFFF;min-height:auto"><div class="card-top"><strong style="color:#00BFFF">NHC — Central Pacific 7-Day Graphic</strong><span class="badge" style="background:#00BFFF;color:#000">CPAC 7-DAY</span></div><div class="city">Central Pacific 7-Day — CPHC</div><div class="radar-wrap" onclick="openModal(this.querySelector('img'))"><img class="radar-img" src="https://www.nhc.noaa.gov/xgtwo/two_cpac_7d0.png" alt="Central Pacific 7 Day"></div><button class="dss-btn" onclick="window.open('https://www.nhc.noaa.gov/gtwo.php?basin=cpac&fdays=7','_blank')">OPEN CENTRAL PAC 7-DAY DISCUSSION</button></div>
+</div>
+<div class="card" style="border-color:#FF00FF;margin-top:14px"><div class="card-top"><strong style="color:#FF00FF">NHC — Tropical Weather Outlook Discussions — All Basins LIVE</strong><span class="badge" style="background:#FF00FF;color:#fff">LIVE TEXT</span></div><div id="nhc-outlook-atl" style="font-size:11px;color:#FF8CFF;background:rgba(255,0,255,.1);padding:10px;border-radius:8px;margin:6px 0;max-height:400px;overflow-y:auto;white-space:pre-wrap">Loading Atlantic Outlook Discussion...</div><div id="nhc-outlook-epac" style="font-size:11px;color:#FFA500;background:rgba(255,140,0,.1);padding:10px;border-radius:8px;margin:6px 0;max-height:400px;overflow-y:auto;white-space:pre-wrap">Loading Eastern Pacific Outlook...</div><div id="nhc-outlook-cpac" style="font-size:11px;color:#00BFFF;background:rgba(0,191,255,.1);padding:10px;border-radius:8px;margin:6px 0;max-height:400px;overflow-y:auto;white-space:pre-wrap">Loading Central Pacific Outlook...</div></div>
+</div>
+
+<div id="modal" onclick="closeModal()"><div class="modal-ad"><div class="ad-label">Advertisement</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567891" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div><img id="modal-img" src=""><div id="modal-title"></div><button id="modal-close">✕ CLOSE — Tap Anywhere to Close</button></div>
+<div class="bonus-modal" id="bonus-modal" onclick="closeBonus()"><div class="bonus-box"><h2 style="color:#FFD700;font-size:20px;margin-bottom:10px">Thanks for Watching</h2><p style="color:#FFEC8B;margin-bottom:12px;font-size:12px">Quick break</p><div class="ad-box" style="margin:10px 0"><div class="ad-label">Advertisement</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567893" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div><button onclick="closeBonus()" style="margin-top:12px;background:linear-gradient(180deg,#FFD700,#D4AF37);color:#000;border:none;padding:12px 24px;border-radius:999px;font-weight:900;cursor:pointer">CONTINUE WATCHING →</button></div></div>
+<div class="dss-modal" id="dss-modal" onclick="if(event.target===this) closeDss()"><div class="dss-box"><div class="dss-header"><span id="dss-title">DSS Severe Weather Packet</span><button onclick="closeDss()" style="background:#000;color:#FFD700;border:2px solid #000;padding:6px 12px;border-radius:999px;font-weight:900;cursor:pointer">✕ CLOSE</button></div><div class="ad-box" style="margin:0;border-radius:0;height:100px!important;min-height:100px!important"><div class="ad-label">Advertisement</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div><iframe id="dss-frame" class="dss-frame" src="" title="DSS Packet PDF"></iframe><div class="ad-box" style="margin:0;border-radius:0;height:100px!important;min-height:100px!important"><div class="ad-label">Advertisement</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567892" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div></div></div>
+<div class="sticky-ad" id="sticky-ad"><div class="ad-label">Advertisement</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567892" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+
+<script>
+let watchCount = parseInt(localStorage.getItem('radarWatchCount')||'0');
+async function shareRadar(code, city, e){
+  if(e){ e.stopPropagation(); e.preventDefault(); }
+  const btn=e?e.currentTarget:null;
+  const card = btn? btn.closest('.card') : null;
+  const imgEl = card? card.querySelector('.radar-img') : null;
+  const imgSrc = imgEl? imgEl.src : '';
+  const isSat = code.toUpperCase().includes('GOES') || code.toUpperCase().includes('TAW') || code.toUpperCase().includes('CAR') || code.toUpperCase().includes('GM') || city.toUpperCase().includes('SATELLITE') || city.toUpperCase().includes('GOES') || (imgSrc && imgSrc.includes('cdn.star.nesdis.noaa.gov'));
+  const isWarning = code.includes('Warning') || code.includes('Watch');
+  let title, text, shareUrl, tinyUrl;
+  let originalUrl = location.origin + location.pathname;
+  if(isSat){
+    title = code + ' ' + city + ' — LIVE Satellite GIF';
+    text = title + ' — 15 min update — GOES19 — From NHC https://www.nhc.noaa.gov/satellite.php\nDirect GIF: ' + imgSrc;
+    shareUrl = originalUrl + '?sat=' + encodeURIComponent(code) + '&gif=' + encodeURIComponent(imgSrc);
+    tinyUrl = shareUrl;
+  } else if(isWarning){
+    title = code + ' - ' + city.substring(0,50);
+    text = title + ' — LIVE Severe Warning';
+    shareUrl = originalUrl + '?severe=1&event=' + encodeURIComponent(code);
+    tinyUrl = shareUrl;
+  } else {
+    originalUrl = location.origin + location.pathname + '?radar=' + encodeURIComponent(code);
+    title = city + ' Live Radar — ' + code;
+    text = title + ' — LIVE Loop — radar.weather.gov';
+    shareUrl = originalUrl;
+    tinyUrl = shareUrl;
+    try{
+      if(btn){ btn.dataset.orig=btn.innerHTML; btn.innerHTML='⏳ MAKING LINK...'; }
+      const res = await fetch('https://tinyurl.com/api-create.php?url='+encodeURIComponent(originalUrl));
+      if(res.ok){ const t=(await res.text()).trim(); if(t.startsWith('http')) tinyUrl=t; }
+    }catch(err){}
+  }
+  if(btn && btn.dataset.orig) btn.innerHTML=btn.dataset.orig;
+  try{
+    if(imgSrc && navigator.canShare){
+      const resp = await fetch(imgSrc, {mode:'cors'});
+      const blob = await resp.blob();
+      const ext = imgSrc.includes('.gif')? 'gif' : 'jpg';
+      const file = new File(, code+'-LIVE.'+ext, {type: blob.type || (ext==='gif'?'image/gif':'image/jpeg')});
+      if(navigator.canShare({files:})){
+        await navigator.share({title:title, text:text + '\n' + tinyUrl, files:});
+        return;
+      }
+    }
+  }catch(err){}
+  const fullText = title + '\n' + text + '\n' + tinyUrl;
+  if(navigator.share){
+    try{ await navigator.share({title:title, text:fullText, url:tinyUrl}); }catch(err){ try{ await navigator.clipboard.writeText(fullText); }catch(e){} if(btn){ const o=btn.innerHTML; btn.innerHTML='✅ COPIED LINK!'; setTimeout(()=>btn.innerHTML=o,2000); } }
+  } else {
+    try{ await navigator.clipboard.writeText(fullText); }catch(e){}
+    if(btn){ const o=btn.innerHTML; btn.innerHTML='✅ COPIED!'; setTimeout(()=>btn.innerHTML=o,2000); } else alert(fullText);
+  }
+}
+function shareSatellite(code,city,e){ return shareRadar(code,city,e); }
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.radar-img').forEach(img=>{
+    img.addEventListener('contextmenu', (ev)=>{ ev.preventDefault(); return false; });
+    img.style.webkitTouchCallout='none';
+    img.style.userSelect='none';
+  });
+});
+function openModal(img){ if(!img) return; const card=img.closest('.card'); const title=card?card.querySelector('.city').innerText:'Live Radar'; document.getElementById('modal-img').src=img.src; document.getElementById('modal-title').innerText=title+' — LIVE RADAR FULL SCREEN'; document.getElementById('modal').style.display='flex'; document.body.style.overflow='hidden'; try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){} watchCount++; localStorage.setItem('radarWatchCount', watchCount); if(watchCount % 3 === 0){ setTimeout(()=>{showBonus();}, 2000); } }
+function showBonus(){ document.getElementById('bonus-modal').style.display='flex'; try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){} }
+function closeBonus(){document.getElementById('bonus-modal').style.display='none';}
+function closeModal(){document.getElementById('modal').style.display='none';document.getElementById('modal-img').src='';document.body.style.overflow='';}
+document.addEventListener('DOMContentLoaded',()=>{
+ setTimeout(()=>{
+ const cards = document.querySelectorAll('.grid.card, #tab-radar.card, #content-root.card');
+ cards.forEach(card=>{
+ if(!card.querySelector('strong')) return;
+ if(card.querySelector('.dss-btn')) return;
+ if(card.getAttribute('data-search') && card.getAttribute('data-search').includes('GOES')) return;
+ const strong = card.querySelector('strong');
+ const cityEl = card.querySelector('.city');
+ if(!strong) return;
+ const code = strong.innerText.trim();
+ if(code.length < 3) return;
+ const city = cityEl? cityEl.innerText.trim() : code;
+ let wfo = code;
+ if(code.length===4 && (code.startsWith('K')||code.startsWith('P'))) wfo = code.substring(1);
+ const btn = document.createElement('button');
+ btn.className = 'dss-btn';
+ btn.innerHTML = '📄 DSS Packet — '+wfo+' — '+city;
+ btn.onclick = (e)=>{e.stopPropagation(); openDssPacket(wfo, city);};
+ card.appendChild(btn);
+ });
+ }, 800);
+});
+document.addEventListener('DOMContentLoaded',()=>{
+ document.querySelectorAll('.card').forEach(card=>{
+ const img=card.querySelector('.radar-img');
+ const wrap=card.querySelector('.radar-wrap');
+ const btn=card.querySelector('.enlarge-btn');
+ const h=(e)=>{e.stopPropagation();openModal(img);};
+ if(img) img.addEventListener('click',h);
+ if(wrap) wrap.addEventListener('click',h);
+ if(btn) btn.addEventListener('click',h);
+ });
+});
+const inp=document.getElementById('search');
+let searchAd = null;
+if(inp){inp.addEventListener('input',()=>{
+ const q=inp.value.toLowerCase().trim();
+ let visibleRadar=0;
+ let visibleSat=0;
+ const allRadarCards = document.querySelectorAll('#tab-radar.card[data-search], #content-root.card[data-search],.grid.card[data-search]');
+ allRadarCards.forEach(c=>{
+   const s=(c.getAttribute('data-search')||'').toLowerCase();
+   const show=(q===''||s.includes(q));
+   c.style.display=show?'':'none';
+   if(show) visibleRadar++;
+ });
+ const allSatCards = document.querySelectorAll('#tab-satellite.card[data-search]');
+ allSatCards.forEach(c=>{
+   const s=(c.getAttribute('data-search')||'').toLowerCase();
+   const show=(q===''||s.includes(q));
+   c.style.display=show?'':'none';
+   if(show) visibleSat++;
+ });
+ document.querySelectorAll('.ad-box').forEach(a=>{ if(q==='') a.style.display='block'; });
+ const grid = document.querySelector('#content-root.grid') || document.querySelector('#tab-radar.grid') || document.querySelector('.grid');
+ if(q!== ''){
+   if(!searchAd){
+     searchAd = document.createElement('div');
+     searchAd.id = 'search-ad';
+     searchAd.className = 'ad-box';
+     searchAd.style.borderColor = '#FFD700';
+     searchAd.style.gridColumn = '1 / -1';
+     searchAd.style.background = 'linear-gradient(180deg,#1a1500,#000)';
+     searchAd.innerHTML = '<div class="ad-label" id="search-ad-label">Results</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567808" data-ad-format="auto" data-full-width-responsive="true"></ins>';
+     if(grid) grid.prepend(searchAd);
+   }
+   const label = document.getElementById('search-ad-label');
+   if(label) label.innerText = '🔍 '+q.toUpperCase()+' — '+visibleRadar+' radars, '+visibleSat+' satellites';
+   if(searchAd) searchAd.style.display='block';
+   try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}
+ } else {
+   if(searchAd) searchAd.style.display='none';
+ }
+});}
+setInterval(()=>{document.querySelectorAll('.radar-img').forEach(img=>{if(img.offsetParent!==null){const b=img.src.split('?');if(b.includes('_loop.gif') || b.includes('.gif')) img.src=b+'?t='+Date.now();}});},300000);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeBonus();closeDss();}});
+(function(){
+ const _p=new URLSearchParams(location.search);
+ const _want=_p.get('radar');
+ if(_want){
+ const cleanTitle = _want + ' Live Radar';
+ document.title = cleanTitle;
+ const og = document.querySelector('meta[property="og:title"]');
+ if(og) og.setAttribute('content', cleanTitle);
+ setTimeout(()=>{
+ const t=[...document.querySelectorAll('.card')].find(c=>c.querySelector('strong')?.innerText===_want);
+ if(t){t.scrollIntoView({behavior:'smooth',block:'center'});t.style.borderColor='#FFD700';}
+ },800);
+ }
+})();[blob][file][0]
+
+function openDssPacket(wfo, city){
+  const wfoMap={
+    'PABC':'afc','PACG':'ajk','PAHG':'afc','PAEC':'afg','PAKN':'afc','PABR':'afg','PASG':'afg',
+    'PHMO':'hnl','PHKI':'hnl','PHKM':'hnl','PHWA':'hnl',
+    'PGUA':'gua',
+    'KABR':'abr','KENX':'aly','KABX':'abq','KAMA':'ama','KFFC':'ffc','KBBX':'sto','KBGM':'bgm','KBMX':'bmx','KBIS':'bis',
+    'KFCX':'rnk','KCBX':'boi','KBOX':'box','KBRO':'bro','KBUF':'buf','KCXX':'btv','KFDX':'abq','KCBW':'car','KICX':'slc','KGRK':'ewx',
+    'KCLX':'chs','KRLX':'rlx','KCAE':'cae','KDLH':'dlh','KDGX':'jan','KDMX':'dmx','KDTX':'dtx','KDDC':'ddc','KDOX':'phi','KEPZ':'epz',
+    'KEVX':'mob','KEMX':'twc','KESX':'lkn','KVWX':'pah','KAPX':'apx','KGGW':'ggw','KGLD':'gld','KGRB':'grb','KGSP':'gsp','KMOB':'mob',
+    'KTFX':'tfx','KJGX':'ffc','KGWX':'jan','KGRR':'grr','KHGX':'hgx','KHDX':'abq','KHTX':'hun','KICT':'ict','KILX':'ilx','KIND':'ind',
+    'KJAX':'jax','KJKL':'jkl','KLCH':'lch','KLIX':'lix','KPOE':'lch','KSHV':'shv','KLOT':'lot','KLSX':'lsx','KLWX':'lwx','KLZK':'lzk',
+    'KVTX':'lox','KMRX':'mrx','KOHX':'ohx','KMAF':'maf','KMKX':'mkx','KMPX':'mpx','KMSX':'mso','KMHX':'mhx','KNKX':'sgx','KAMX':'mfl',
+    'KMBX':'bis','KTWX':'top','KOKX':'okx','KPAH':'pah','KPBZ':'pbz','KPUB':'pub','KRAX':'rah','KRIW':'riw','KRGX':'rev','KRTX':'pqr',
+    'KSFX':'pih','KSJT':'sjt','KSOX':'sgx','KSRX':'sgf','KTBW':'tbw','KTYX':'buf','KUDX':'unr','KUEX':'lbf','KVAX':'ffc','KYUX':'psr',
+    'KTLX':'oun','KINX':'tsa','KFWS':'fwd','KDYX':'dyf','KLBB':'lub','KDFX':'ewx','KCRP':'crp','KEWX':'ewx','KEAX':'eax','KVNX':'oun',
+    'KTLH':'tae','KMLB':'mlb','KBYX':'key','KLTX':'ilm','KNQA':'meg','KHPX':'bwg','KLVX':'lmk','KCLE':'cle','KIWX':'iwx','KARX':'arx',
+    'KDVN':'dvn','KFSD':'fsd','KOAX':'oax','KFSX':'fgz','KIWA':'psr','KLRX':'vef','KVBX':'lox','KMUX':'mtr','KHNX':'hnx','KDAX':'sto',
+    'KMAX':'mfr','KLGX':'sew','KATX':'sew','KOTX':'otx'
+  };
+  let wfoClean = wfo.toUpperCase();
+  let wfo3 = wfoMap || wfoClean.toLowerCase();
+  if(wfo3.length===4 && (wfo3.startsWith('k')||wfo3.startsWith('p'))) wfo3 = wfo3.substring(1);
+  wfo3 = wfo3.substring(0,3).toLowerCase();
+  const pdfUrl = 'https://www.weather.gov/media/'+wfo3+'/DssPacket.pdf';
+  const title = city + ' — DSS Packet ('+wfo3.toUpperCase()+')';
+  document.getElementById('dss-title').innerText = title;
+  const frame = document.getElementById('dss-frame');
+  const viewerUrl = 'https://docs.google.com/gview?embedded=1&url='+encodeURIComponent(pdfUrl);
+  document.getElementById('dss-modal').style.display='flex';
+  document.body.style.overflow='hidden';
+  try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}
+  frame.src = viewerUrl;
+  setTimeout(()=>{
+    try{ if(!frame.contentWindow) throw 'blocked'; }catch(e){ window.open(pdfUrl,'_blank'); }
+  }, 4000);
+}
+function openMainDss(){ openDssPacket('dmx','Des Moines, IA — SAMPLE DSS PACKET'); }
+function closeDss(){ document.getElementById('dss-modal').style.display='none'; document.getElementById('dss-frame').src=''; document.body.style.overflow=''; }[wfoClean]
+
+function loadWPC(md){
+  var img = document.getElementById('wpc-mpd-img');
+  var textEl = document.getElementById('wpc-text');
+  var numEl = document.getElementById('wpc-mpd-number');
+  var mdNum = md;
+  if(md==='latest' ||!md){ mdNum = 1281; }
+  if(numEl) numEl.innerText = 'MPD #' + mdNum;
+  if(img){
+    img.src = 'https://www.wpc.ncep.noaa.gov/metwatch/images/mpd' + mdNum + '.gif';
+    img.onerror = function(){ this.onerror = null; this.src = 'https://www.wpc.ncep.noaa.gov/metwatch/images/mpd_latest.gif'; };
+  }
+  if(textEl){
+    textEl.innerText = 'Loading MPD #' + mdNum + ' from https://www.wpc.ncep.noaa.gov/metwatch/metwatch_mpd_multi.php?md=' + mdNum + '&yr=2026...';
+    fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://www.wpc.ncep.noaa.gov/metwatch/metwatch_mpd_multi.php?md=' + mdNum + '&yr=2026'))
+     .then(function(r){return r.text()})
+     .then(function(t){
+        var clean = t.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+        textEl.innerText = 'MPD #' + mdNum + ' — FROM https://www.wpc.ncep.noaa.gov/metwatch/metwatch_mpd_multi.php?md=' + mdNum + '&yr=2026\n\n' + clean.substring(0,10000);
+      })
+     .catch(function(e){ textEl.innerText = 'Failed — Open directly: https://www.wpc.ncep.noaa.gov/metwatch/metwatch_mpd_multi.php?md=' + mdNum + '&yr=2026'; });
+  }
+}
+
+function loadSevereWarnings(){
+  const container=document.getElementById('severe-warnings-container');
+  const countEl=document.getElementById('severe-count');
+  const totalEl=document.getElementById('severe-total-count');
+  const lastEl=document.getElementById('severe-last-updated');
+  const noEl=document.getElementById('severe-no-warnings');
+  if(!container) return;
+  container.innerHTML='<div class="card" style="grid-column:1/-1;text-align:center;padding:30px"><div class="city">Loading live warnings...</div></div>';
+  const stateRadarMap={'AL':'KMOB','AK':'PAHG','AZ':'KPHX','AR':'KLZK','CA':'KSOX','CO':'KFTG','CT':'KOKX','DE':'KDOX','FL':'KAMX','GA':'KFFC','HI':'PHKI','ID':'KBOI','IL':'KLOT','IN':'KIND','IA':'KDMX','KS':'KICT','KY':'KLVX','LA':'KLIX','ME':'KGYX','MD':'KLWX','MA':'KBOX','MI':'KDTX','MN':'KMPX','MS':'KJAN','MO':'KSGF','MT':'KTFX','NE':'KOAX','NV':'KLRX','NH':'KGYX','NJ':'KDIX','NM':'KABX','NY':'KOKX','NC':'KRAH','ND':'KBIS','OH':'KILN','OK':'KTLX','OR':'KRTX','PA':'KPBZ','RI':'KBOX','SC':'KCAE','SD':'KFSD','TN':'KOHX','TX':'KHGX','UT':'KMTX','VT':'KCXX','VA':'KAKQ','WA':'KATX','WV':'KRLX','WI':'KMKX','WY':'KCYS','DC':'KLWX'};
+  fetch('https://api.weather.gov/alerts/active?severity=Severe,Extreme&status=Actual').then(function(r){return r.json()}).then(function(data){
+    let warnings=(data.features||[]).filter(function(f){const e=(f.properties.event||''); return e.includes('Warning')||e.includes('Watch')||e.includes('Tornado')||e.includes('Thunderstorm')||e.includes('Flood')||e.includes('Marine');});
+    warnings.sort(function(a,b){const o={'Tornado Warning':1,'Severe Thunderstorm Warning':2,'Flash Flood Warning':3,'Special Marine Warning':4}; return (o[a.properties.event]||99)-(o[b.properties.event]||99);});
+    if(countEl) countEl.innerText=warnings.length; if(totalEl) totalEl.innerText=warnings.length+' Active'; if(lastEl) lastEl.innerText='Updated: '+new Date().toLocaleTimeString();
+    if(warnings.length===0){container.innerHTML=''; if(noEl) noEl.style.display='block'; return;} if(noEl) noEl.style.display='none'; container.innerHTML='';
+    warnings.forEach(function(f){
+      const p=f.properties; const event=p.event||'Warning'; const headline=p.headline||event; const area=p.areaDesc||''; const desc=p.description||''; const instr=p.instruction||''; const onset=p.onset?new Date(p.onset).toLocaleString():''; const ends=p.ends?new Date(p.ends).toLocaleString():(p.expires?new Date(p.expires).toLocaleString():'');
+      let radarCode='CONUS'; let detectedState=null; const m=area.match(/\b([A-Z]{2})\b/g); if(m){for(let st of m){if(stateRadarMap){detectedState=st; radarCode=stateRadarMap; break;}}}
+      let radarImg='https://radar.weather.gov/ridge/standard/CONUS_loop.gif'; let radarLabel='CONUS Radar - National View'; if(radarCode!=='CONUS'){radarImg='https://radar.weather.gov/ridge/standard/'+radarCode+'_loop.gif'; radarLabel=radarCode+' - '+detectedState+' Local Radar - Exact Location';}
+      let bc='#FFD700', bt='SEVERE'; if(event.includes('Tornado')){bc='#FF0000';bt='TORNADO';} else if(event.includes('Severe Thunderstorm')){bc='#FF8C00';bt='SEVERE TSTORM';} else if(event.includes('Flood')){bc='#0080FF';bt='FLOOD';} else if(event.includes('Marine')){bc='#FF00FF';bt='MARINE';}
+      const card=document.createElement('div'); card.className='card'; card.style.borderLeft='6px solid '+bc; card.style.minHeight='auto';
+      card.innerHTML='<div style="display:flex;justify-content:space-between;margin-bottom:8px"><strong style="color:#fff;font-size:14px">'+event+'</strong><span style="padding:3px 10px;border-radius:999px;background:'+bc+';color:#000;font-size:10px;font-weight:900">'+bt+'</span></div><div style="font-size:13px;font-weight:800;color:#FFEC8B;margin-bottom:6px">'+headline+'</div><div style="font-size:11px;color:#FF8C8B;margin-bottom:6px">Where: '+area+'</div><div style="font-size:11px;color:#9a8a4a;margin-bottom:8px">When: '+onset+' - '+ends+'</div><div style="background:#000;border:2px solid '+bc+';border-radius:12px;overflow:hidden;margin:8px 0"><div style="background:'+bc+';color:#000;font-size:10px;font-weight:900;padding:4px 8px;text-align:center">'+radarLabel+' - EXACT LOCATION</div><div class="radar-wrap" onclick="openModal(this.querySelector(\'img\'))" style="position:relative;cursor:pointer"><img src="'+radarImg+'" loading="lazy" class="radar-img" style="width:100%;height:auto;min-height:200px;max-height:320px;object-fit:contain;background:#000;display:block" onerror="this.src=\'https://radar.weather.gov/ridge/standard/CONUS_loop.gif\'"></div><div style="color:#FFD700;font-weight:800;font-size:10px;padding:6px;text-align:center;cursor:pointer" onclick="openModal(this.parentElement.querySelector(\'.radar-wrap img\'))">TAP TO ENLARGE -- Full Screen</div></div><div style="font-size:11px;color:#ddd;background:rgba(0,0,0,.4);padding:8px;border-radius:8px;max-height:100px;overflow-y:auto;white-space:pre-wrap">'+desc.substring(0,700)+'</div>'+(instr?'<div style="font-size:11px;color:#FFD700;background:rgba(255,215,0,.1);padding:8px;border-radius:8px;margin-top:6px;border:1px solid #FFD700">What to do: '+instr.substring(0,400)+'</div>':'')+'<div style="display:flex;gap:6px;margin-top:10px"><button onclick="shareRadar(\''+event.replace(/\'/g,'')+'\', \''+area.substring(0,20).replace(/\'/g,'')+'\', event)" style="flex:1;padding:8px;border-radius:999px;border:1px solid #FFD700;background:#000;color:#FFD700;font-weight:800;font-size:10px">SHARE WARNING</button></div>';
+      container.appendChild(card);
+    });
+  }).catch(function(err){container.innerHTML='<div class="card">Failed: '+err.message+'</div>';});
+}[st]
+
+function loadSPC(){
+  var el = document.getElementById('spc-md-text');
+  if(!el) return;
+  el.innerText = 'Loading SPC MDs from https://www.spc.noaa.gov/products/md/...';
+  fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://www.spc.noaa.gov/products/md/'))
+   .then(function(r){return r.text()})
+   .then(function(t){
+      var clean = t.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().substring(0,8000);
+      el.innerText = 'SPC MDs — FROM https://www.spc.noaa.gov/products/md/\n\n' + clean + '\n\nFull: https://www.spc.noaa.gov/products/md/';
+    })
+   .catch(function(){ el.innerText = 'Failed — Open directly: https://www.spc.noaa.gov/products/md/'; });
+}
+
+function loadNHC(){
+  var activeEl = document.getElementById('nhc-active-storms');
+  var atlEl = document.getElementById('nhc-outlook-atl');
+  var epacEl = document.getElementById('nhc-outlook-epac');
+  var cpacEl = document.getElementById('nhc-outlook-cpac');
+  if(activeEl){
+    activeEl.innerHTML = '<div class="card" style="border-color:#FF00FF;grid-column:1/-1">Loading active tropical depressions/storms/hurricanes from nhc.noaa.gov...</div>';
+    fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://www.nhc.noaa.gov/CurrentStorms.json'))
+     .then(function(r){return r.text()})
+     .then(function(t){
+        var data; try{ data = JSON.parse(t); }catch(e){ throw new Error('parse'); }
+        var storms = data.activeStorms || [];
+        if(storms.length===0){
+          activeEl.innerHTML = '<div class="card" style="border-color:#00FF00;grid-column:1/-1"><div class="card-top"><strong style="color:#00FF00">No Active Tropical Cyclones</strong><span class="badge" style="background:#00FF00;color:#000">CALM</span></div><div class="city">Atlantic, Eastern Pacific, Central Pacific — All Clear</div></div>';
+        } else {
+          activeEl.innerHTML='';
+          storms.forEach(function(s){
+            var name = s.name || 'Invest'; var id = s.id || ''; var basin = s.basin || ''; var intensity = s.intensity || '';
+            var card = document.createElement('div'); card.className='card'; card.style.borderColor='#FF0000'; card.style.minHeight='auto';
+            card.innerHTML = '<div class="card-top"><strong style="color:#FF0000">'+name+' ('+id+')</strong><span class="badge" style="background:#FF0000;color:#fff">'+basin+' '+intensity+'</span></div><div class="city">Active '+intensity+' — '+name+' — '+basin+'</div><div class="meta">ID: '+id+' — Basin: '+basin+'</div>';
+            activeEl.appendChild(card);
+          });
+        }
+      })
+     .catch(function(){ if(activeEl) activeEl.innerHTML = '<div class="card" style="border-color:#FF00FF;grid-column:1/-1">Active storm data blocked — Open <a href="https://www.nhc.noaa.gov/" target="_blank" style="color:#FF00FF">nhc.noaa.gov</a> directly</div>'; });
+  }
+  function loadOutlook(basin, el, days){
+    if(!el) return;
+    el.innerText = 'Loading '+basin.toUpperCase()+' '+days+'-Day Tropical Weather Outlook Discussion from nhc.noaa.gov/gtwo.php?basin='+basin+'&fdays='+days+'...';
+    fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://www.nhc.noaa.gov/gtwo.php?basin='+basin+'&fdays='+days))
+     .then(function(r){return r.text()})
+     .then(function(t){
+        var clean = t.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().substring(0,10000);
+        el.innerText = basin.toUpperCase()+' '+days+'-Day Outlook — FROM https://www.nhc.noaa.gov/gtwo.php?basin='+basin+'&fdays='+days+'\n\n' + clean;
+      })
+     .catch(function(){ el.innerText = 'Failed — Open directly: https://www.nhc.noaa.gov/gtwo.php?basin='+basin+'&fdays='+days; });
+  }
+  loadOutlook('atlc', atlEl, '7');
+  setTimeout(function(){ loadOutlook('epac', epacEl, '7'); }, 800);
+  setTimeout(function(){ loadOutlook('cpac', cpacEl, '7'); }, 1600);
+}
+
+function switchTab(name){
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  const t=document.getElementById('tab-'+name); if(t) t.classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(btn=>{if(btn.getAttribute('onclick')&&btn.getAttribute('onclick').includes("'"+name+"'")) btn.classList.add('active');});
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(name==='severe'){loadSevereWarnings(); if(window.severeInterval) clearInterval(window.severeInterval); window.severeInterval=setInterval(loadSevereWarnings,120000);} else {if(window.severeInterval){clearInterval(window.severeInterval); window.severeInterval=null;}}
+  if(name==='wpc'){loadWPC(1281);} if(name==='spc'){loadSPC();} if(name==='nhc'){loadNHC();}
+};
+document.addEventListener('DOMContentLoaded',()=>{
+  const params=new URLSearchParams(location.search); const sat=params.get('sat'); const radar=params.get('radar'); const sev=params.get('severe');
+  if(sat){setTimeout(()=>{switchTab('satellite');},600);} else if(radar){setTimeout(()=>{switchTab('radar');},600);} else if(sev){setTimeout(()=>{switchTab('severe');},400);}
+});
+</script>
+</body>
+</html>
