@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Weather Radar</title>
+<meta property="og:title" content="Live Weather Radar">
+<meta property="og:description" content="Live weather radar - tap to view">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="description" content="Live weather radar - 170 radars nationwide">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8107327731283027" crossorigin="anonymous"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:radial-gradient(ellipse at top, #1a1500 0%, #000000 50%);color:#fff;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;padding:16px;padding-bottom:130px;min-height:100vh}
+h1{font-size:30px;font-weight:900;line-height:1.15;margin:10px 0;background:linear-gradient(90deg,#FFD700 0%,#FFA500 30%,#FFD700 60%,#FFEC8B 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.5px;text-shadow:0 0 30px rgba(255,215,0,.3)}
+.subtitle{color:#d4af37;font-size:14px;margin-bottom:14px;opacity:.9}
+#search{width:100%;padding:14px 16px;border-radius:12px;border:2px solid #d4af37;background:linear-gradient(180deg,#1a1a1a 0%,#0a0a0a 100%);color:#FFD700;font-size:16px;outline:none;margin-bottom:18px;position:sticky;top:10px;z-index:20;box-shadow:0 0 20px rgba(212,175,55,.2), inset 0 1px 0 rgba(255,215,0,.1)}
+#search:focus{border-color:#FFD700;box-shadow:0 0 30px rgba(255,215,0,.4)}
+#search::placeholder{color:#8a7a3a}
+.ad-box{width:100%;height:280px!important;min-height:280px!important;max-height:280px!important;margin:18px 0;padding:10px;background:linear-gradient(180deg,#111 0%,#000 100%);border:2px solid #333;border-radius:12px;text-align:center;display:block!important;overflow:hidden;grid-column:1/-1!important}
+.ad-box ins{width:100%;height:250px!important;display:block}
+.ad-label{color:#d4af37;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.grid{grid-template-columns:repeat(2,1fr)}}
+.card{border:2px solid #3a3000;border-radius:16px;background:linear-gradient(180deg,#1a1a1a 0%,#0f0f0f 50%,#000 100%);padding:12px;overflow:hidden;min-height:380px;box-shadow:0 4px 20px rgba(0,0,0,.8), inset 0 1px 0 rgba(212,175,55,.15);transition:all.3s ease;position:relative}
+.card:before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#d4af37,transparent);opacity:.6}
+.card:hover{border-color:#d4af37;box-shadow:0 0 30px rgba(212,175,55,.3), 0 8px 30px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,215,0,.2);transform:translateY(-2px)}
+.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.badge{padding:3px 10px;border-radius:999px;background:linear-gradient(180deg,#FFD700 0%,#D4AF37 100%);border:1px solid #FFD700;color:#000;font-size:11px;font-weight:800;box-shadow:0 2px 8px rgba(255,215,0,.3)}
+.city{font-size:15px;font-weight:800;line-height:1.2;min-height:36px;color:#FFEC8B;text-shadow:0 0 10px rgba(255,215,0,.2)}
+.meta{color:#9a8a4a;font-size:11px;margin:4px 0}
+.radar-img{width:100%;height:200px;object-fit:cover;border-radius:12px;margin-top:8px;background:#000;border:2px solid #2a2000;display:block;cursor:pointer;transition:all.3s}
+.radar-wrap{position:relative;cursor:pointer}
+.radar-wrap:after{content:"🔍 TAP TO MAKE BIG";position:absolute;bottom:10px;right:8px;background:linear-gradient(180deg,#FFD700,#D4AF37);color:#000;font-size:9px;font-weight:900;padding:5px 10px;border-radius:20px;pointer-events:auto;cursor:pointer;z-index:2;box-shadow:0 2px 10px rgba(0,0,0,.8);border:1px solid #FFEC8B}
+.enlarge-btn{color:#FFD700!important;font-weight:800!important;cursor:pointer!important;padding:8px 0!important;display:block!important;text-shadow:0 0 10px rgba(255,215,0,.3)}
+.share-btn{margin-top:10px;width:100%;padding:10px;border-radius:999px;border:2px solid #d4af37;background:linear-gradient(180deg,#1a1500 0%,#000 100%);color:#FFD700;font-weight:800;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all.2s}
+.share-btn:hover{background:linear-gradient(180deg,#FFD700,#D4AF37);color:#000;box-shadow:0 0 20px rgba(255,215,0,.4)}
+.shop-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:800px){.shop-grid{grid-template-columns:repeat(2,1fr)}}
+.shop-card{border:2px solid #3a3000;border-radius:16px;background:linear-gradient(180deg,#1a1a1a 0%,#000 100%);padding:12px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 4px 20px rgba(0,0,0,.8), inset 0 1px 0 rgba(212,175,55,.1);transition:all.3s}
+.shop-card:hover{border-color:#d4af37;box-shadow:0 0 25px rgba(212,175,55,.25);transform:translateY(-2px)}
+.shop-img{width:100%;height:140px;object-fit:cover;background:#111;border-radius:12px;margin:8px 0;border:2px solid #2a2000;display:block}
+.shop-title{font-size:13px;font-weight:800;line-height:1.2;min-height:32px;color:#FFEC8B}
+.shop-price{color:#FFD700;font-weight:900;font-size:14px;margin:4px 0;text-shadow:0 0 10px rgba(255,215,0,.3)}
+.shop-desc{color:#9a8a4a;font-size:10px;margin:4px 0;flex:1}
+.buy-btn{margin-top:8px;width:100%;padding:10px;border-radius:999px;border:none;background:linear-gradient(180deg,#FFD700 0%,#D4AF37 100%);color:#000;font-weight:900;font-size:11px;cursor:pointer;box-shadow:0 3px 12px rgba(255,215,0,.3);transition:all.2s}
+.buy-btn:hover{background:linear-gradient(180deg,#FFEC8B 0%,#FFD700 100%);box-shadow:0 0 20px rgba(255,215,0,.5);transform:scale(1.02)}
+.tabs{display:flex;gap:10px;margin:16px 0 18px 0;overflow-x:auto;padding-bottom:6px;position:sticky;top:58px;z-index:19;background:linear-gradient(180deg,#000 0%,#0a0a0a 100%);padding-top:8px;border-bottom:1px solid #2a2000}
+.tab-btn{padding:11px 20px;border-radius:999px;border:2px solid #3a3000;background:linear-gradient(180deg,#1a1a1a,#000);color:#d4af37;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap;transition:all.2s}
+.tab-btn:hover{border-color:#d4af37;color:#FFD700;box-shadow:0 0 15px rgba(212,175,55,.2)}
+.tab-btn.active{background:linear-gradient(180deg,#FFD700 0%,#D4AF37 100%);color:#000;border-color:#FFD700;box-shadow:0 0 20px rgba(255,215,0,.4);font-weight:900}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.aff-note{margin:16px 0;padding:14px;background:linear-gradient(180deg,#1a1500,#000);border:2px solid #d4af37;border-radius:12px;color:#d4af37;font-size:11px;line-height:1.5;box-shadow:0 0 20px rgba(212,175,55,.15)}
+.cat-label{grid-column:1/-1;color:#FFD700;font-weight:900;font-size:14px;margin:14px 0 6px 0;letter-spacing:1px;text-shadow:0 0 15px rgba(255,215,0,.4);border-bottom:1px solid #3a3000;padding-bottom:6px}
+#modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:999;align-items:center;justify-content:center;flex-direction:column;padding:12px}
+#modal img{max-width:98vw;max-height:70vh;border-radius:16px;border:3px solid #FFD700;box-shadow:0 0 50px rgba(255,215,0,.3)}
+#modal-title{margin-top:14px;font-weight:900;font-size:18px;text-align:center;color:#FFD700;text-shadow:0 0 20px rgba(255,215,0,.4)}
+#modal-close{margin-top:16px;background:linear-gradient(180deg,#FFD700,#D4AF37);color:#000;border:2px solid #FFD700;padding:12px 28px;border-radius:999px;font-weight:900;cursor:pointer;box-shadow:0 0 20px rgba(255,215,0,.4)}
+.sticky-ad{position:fixed;bottom:0;left:0;right:0;z-index:1000;background:#000;border-top:2px solid #FFD700;padding:5px;text-align:center;box-shadow:0 -5px 20px rgba(0,0,0,.9);height:110px}
+.sticky-ad .ad-label{color:#FFD700;font-size:9px}
+.modal-ad{width:100%;max-width:400px;height:120px;background:#111;border:1px solid #333;border-radius:8px;margin-bottom:10px;padding:5px;text-align:center}
+.bonus-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:2000;align-items:center;justify-content:center;flex-direction:column;padding:20px}
+.bonus-box{background:linear-gradient(180deg,#1a1500,#000);border:3px solid #FFD700;border-radius:16px;padding:20px;max-width:400px;width:100%;text-align:center;box-shadow:0 0 40px rgba(255,215,0,.5)}
+
+.dss-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:3000;align-items:center;justify-content:center;flex-direction:column;padding:10px}
+.dss-box{background:linear-gradient(180deg,#1a1500,#000);border:3px solid #FFD700;border-radius:16px;width:98%;max-width:900px;height:90vh;display:flex;flex-direction:column;box-shadow:0 0 50px rgba(255,215,0,.5);overflow:hidden}
+.dss-header{padding:12px;background:linear-gradient(180deg,#FFD700,#D4AF37);color:#000;font-weight:900;display:flex;justify-content:space-between;align-items:center}
+.dss-frame{flex:1;width:100%;border:none;background:#111}
+.dss-btn{margin-top:6px;width:100%;padding:8px;border-radius:999px;border:2px solid #FF4500;background:linear-gradient(180deg,#1a0a00,#000);color:#FF8C00;font-weight:800;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.dss-btn:hover{background:linear-gradient(180deg,#FF4500,#FF8C00);color:#000}
+
+</style>
+</head>
+<body>
+<div style="width:100%;height:3px;background:linear-gradient(90deg,#000,#FFD700,#FFA500,#FFD700,#000);margin:-16px -16px 16px -16px;box-shadow:0 0 20px rgba(255,215,0,.5)"></div>
+<h1>👑 World Breaking Daily News<br>and Daily Weather — Nationwide</h1>
+<p class="subtitle">Type in your state to pull the station. 170 radars. TAP IMAGE OR BLUE TEXT TO ENLARGE and you can SHARE the radar if you like — AD AFTER 4 RADARS — BONUS EVERY 3 WATCHES!</p>
+<input id="search" type="text" placeholder="Search — KICT Wichita, Texas, California, KHGX Houston... 170+ Stations" autocomplete="off">
+<div class="ad-box"><div class="ad-label">Advertisement — Top</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<button onclick="openMainDss()" style="margin:8px 0;background:linear-gradient(180deg,#FF4500,#FF8C00);color:#000;border:2px solid #FFD700;padding:10px 18px;border-radius:999px;font-weight:900;cursor:pointer;box-shadow:0 0 20px rgba(255,69,0,.4)">📄 OPEN SEVERE WEATHER DSS PACKET — DMX Sample (Pop-up with Ads)</button>
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab('radar')">📡 170 Radars</button>
+<button class="tab-btn" onclick="switchTab('satellite')">🛰️ Satellite (12 Color)</button>
+<button class="tab-btn" onclick="switchTab('shop')">🛒 Weather Shop (24 Products)</button>
+</div>
+<div id="tab-radar" class="tab-content active">
+<div id="content-root">
+<div class="grid">
+<div class="card" data-search="KABR Aberdeen, SD, SD, South Dakota, South Dakota State"><div class="card-top"><strong>KABR</strong><span class="badge">SD</span></div><div class="city">Aberdeen, SD</div><div class="meta">KABR — Aberdeen, SD</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KABR_loop.gif" alt="KABR radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KABR</div><button class="share-btn" onclick="shareRadar('KABR', 'Aberdeen, SD', event)">📤 SHARE KABR</button></div>
+<div class="card" data-search="KENX Albany, NY, NY, New York, New York State"><div class="card-top"><strong>KENX</strong><span class="badge">NY</span></div><div class="city">Albany, NY</div><div class="meta">KENX — Albany, NY</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KENX_loop.gif" alt="KENX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KENX</div><button class="share-btn" onclick="shareRadar('KENX', 'Albany, NY', event)">📤 SHARE KENX</button></div>
+<div class="card" data-search="KABX Albuquerque, NM, NM, New Mexico, New Mexico State"><div class="card-top"><strong>KABX</strong><span class="badge">NM</span></div><div class="city">Albuquerque, NM</div><div class="meta">KABX — Albuquerque, NM</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KABX_loop.gif" alt="KABX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KABX</div><button class="share-btn" onclick="shareRadar('KABX', 'Albuquerque, NM', event)">📤 SHARE KABX</button></div>
+<div class="card" data-search="KAMA Amarillo, TX, TX, Texas, Texas State"><div class="card-top"><strong>KAMA</strong><span class="badge">TX</span></div><div class="city">Amarillo, TX</div><div class="meta">KAMA — Amarillo, TX</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KAMA_loop.gif" alt="KAMA radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KAMA</div><button class="share-btn" onclick="shareRadar('KAMA', 'Amarillo, TX', event)">📤 SHARE KAMA</button></div>
+<div class="ad-box"><div class="ad-label">Advertisement — After 4 Radars</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567808" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<div class="card" data-search="PAHG Anchorage/Kenai, AK, AK, Alaska, Alaska State"><div class="card-top"><strong>PAHG</strong><span class="badge">AK</span></div><div class="city">Anchorage/Kenai, AK</div><div class="meta">PAHG — Anchorage/Kenai, AK</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/PAHG_loop.gif" alt="PAHG radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full PAHG</div><button class="share-btn" onclick="shareRadar('PAHG', 'Anchorage/Kenai, AK', event)">📤 SHARE PAHG</button></div>
+<div class="card" data-search="PGUA Andersen AFB, Guam, Guam"><div class="card-top"><strong>PGUA</strong><span class="badge">Guam</span></div><div class="city">Andersen AFB, Guam</div><div class="meta">PGUA — Andersen AFB, Guam</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/PGUA_loop.gif" alt="PGUA radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full PGUA</div><button class="share-btn" onclick="shareRadar('PGUA', 'Andersen AFB, Guam', event)">📤 SHARE PGUA</button></div>
+<div class="card" data-search="KFFC Atlanta, GA, GA, Georgia, Georgia State"><div class="card-top"><strong>KFFC</strong><span class="badge">GA</span></div><div class="city">Atlanta, GA</div><div class="meta">KFFC — Atlanta, GA</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KFFC_loop.gif" alt="KFFC radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KFFC</div><button class="share-btn" onclick="shareRadar('KFFC', 'Atlanta, GA', event)">📤 SHARE KFFC</button></div>
+<div class="card" data-search="KBBX Beale AFB, CA, CA, California, California State"><div class="card-top"><strong>KBBX</strong><span class="badge">CA</span></div><div class="city">Beale AFB, CA</div><div class="meta">KBBX — Beale AFB, CA</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KBBX_loop.gif" alt="KBBX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KBBX</div><button class="share-btn" onclick="shareRadar('KBBX', 'Beale AFB, CA', event)">📤 SHARE KBBX</button></div>
+<div class="ad-box"><div class="ad-label">Advertisement — After 4 Radars</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567808" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<div class="card" data-search="PABC Bethel, AK, AK, Alaska, Alaska State"><div class="card-top"><strong>PABC</strong><span class="badge">AK</span></div><div class="city">Bethel, AK</div><div class="meta">PABC — Bethel, AK</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/PABC_loop.gif" alt="PABC radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full PABC</div><button class="share-btn" onclick="shareRadar('PABC', 'Bethel, AK', event)">📤 SHARE PABC</button></div>
+<div class="card" data-search="KBLX Billings, MT, MT, Montana, Montana State"><div class="card-top"><strong>KBLX</strong><span class="badge">MT</span></div><div class="city">Billings, MT</div><div class="meta">KBLX — Billings, MT</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KBLX_loop.gif" alt="KBLX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KBLX</div><button class="share-btn" onclick="shareRadar('KBLX', 'Billings, MT', event)">📤 SHARE KBLX</button></div>
+<div class="card" data-search="KBGM Binghamton, NY, NY, New York, New York State"><div class="card-top"><strong>KBGM</strong><span class="badge">NY</span></div><div class="city">Binghamton, NY</div><div class="meta">KBGM — Binghamton, NY</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KBGM_loop.gif" alt="KBGM radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KBGM</div><button class="share-btn" onclick="shareRadar('KBGM', 'Binghamton, NY', event)">📤 SHARE KBGM</button></div>
+<div class="card" data-search="PACG Biorka Island, AK, AK, Alaska, Alaska State"><div class="card-top"><strong>PACG</strong><span class="badge">AK</span></div><div class="city">Biorka Island, AK</div><div class="meta">PACG — Biorka Island, AK</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/PACG_loop.gif" alt="PACG radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full PACG</div><button class="share-btn" onclick="shareRadar('PACG', 'Biorka Island, AK', event)">📤 SHARE PACG</button></div>
+<div class="ad-box"><div class="ad-label">Advertisement — After 4 Radars</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567808" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<div class="card" data-search="KBMX Birmingham, AL, AL, Alabama, Alabama State"><div class="card-top"><strong>KBMX</strong><span class="badge">AL</span></div><div class="city">Birmingham, AL</div><div class="meta">KBMX — Birmingham, AL</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KBMX_loop.gif" alt="KBMX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KBMX</div><button class="share-btn" onclick="shareRadar('KBMX', 'Birmingham, AL', event)">📤 SHARE KBMX</button></div>
+<div class="card" data-search="KBIS Bismarck, ND, ND, North Dakota, North Dakota State"><div class="card-top"><strong>KBIS</strong><span class="badge">ND</span></div><div class="city">Bismarck, ND</div><div class="meta">KBIS — Bismarck, ND</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KBIS_loop.gif" alt="KBIS radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KBIS</div><button class="share-btn" onclick="shareRadar('KBIS', 'Bismarck, ND', event)">📤 SHARE KBIS</button></div>
+<div class="card" data-search="KFCX Blacksburg, VA, VA, Virginia, Virginia State"><div class="card-top"><strong>KFCX</strong><span class="badge">VA</span></div><div class="city">Blacksburg, VA</div><div class="meta">KFCX — Blacksburg, VA</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KFCX_loop.gif" alt="KFCX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KFCX</div><button class="share-btn" onclick="shareRadar('KFCX', 'Blacksburg, VA', event)">📤 SHARE KFCX</button></div>
+<div class="card" data-search="KCBX Boise, ID, ID, Idaho, Idaho State"><div class="card-top"><strong>KCBX</strong><span class="badge">ID</span></div><div class="city">Boise, ID</div><div class="meta">KCBX — Boise, ID</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KCBX_loop.gif" alt="KCBX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KCBX</div><button class="share-btn" onclick="shareRadar('KCBX', 'Boise, ID', event)">📤 SHARE KCBX</button></div>
+<div class="ad-box"><div class="ad-label">Advertisement — After 4 Radars</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567808" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<div class="card" data-search="KBOX Boston, MA, MA, Massachusetts, Massachusetts State"><div class="card-top"><strong>KBOX</strong><span class="badge">MA</span></div><div class="city">Boston, MA</div><div class="meta">KBOX — Boston, MA</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KBOX_loop.gif" alt="KBOX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KBOX</div><button class="share-btn" onclick="shareRadar('KBOX', 'Boston, MA', event)">📤 SHARE KBOX</button></div>
+<div class="card" data-search="KBRO Brownsville, TX, TX, Texas, Texas State"><div class="card-top"><strong>KBRO</strong><span class="badge">TX</span></div><div class="city">Brownsville, TX</div><div class="meta">KBRO — Brownsville, TX</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KBRO_loop.gif" alt="KBRO radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KBRO</div><button class="share-btn" onclick="shareRadar('KBRO', 'Brownsville, TX', event)">📤 SHARE KBRO</button></div>
+<div class="card" data-search="KBUF Buffalo, NY, NY, New York, New York State"><div class="card-top"><strong>KBUF</strong><span class="badge">NY</span></div><div class="city">Buffalo, NY</div><div class="meta">KBUF — Buffalo, NY</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KBUF_loop.gif" alt="KBUF radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KBUF</div><button class="share-btn" onclick="shareRadar('KBUF', 'Buffalo, NY', event)">📤 SHARE KBUF</button></div>
+<div class="card" data-search="KCXX Burlington, VT, VT, Vermont, Vermont State"><div class="card-top"><strong>KCXX</strong><span class="badge">VT</span></div><div class="city">Burlington, VT</div><div class="meta">KCXX — Burlington, VT</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KCXX_loop.gif" alt="KCXX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KCXX</div><button class="share-btn" onclick="shareRadar('KCXX', 'Burlington, VT', event)">📤 SHARE KCXX</button></div>
+<div class="ad-box"><div class="ad-label">Advertisement — After 4 Radars</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567808" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<div class="card" data-search="KLCH Lake Charles, LA, LA, Louisiana, Louisiana State"><div class="card-top"><strong>KLCH</strong><span class="badge">LA</span></div><div class="city">Lake Charles, LA</div><div class="meta">KLCH — Lake Charles, LA</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KLCH_loop.gif" alt="KLCH radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KLCH</div><button class="share-btn" onclick="shareRadar('KLCH', 'Lake Charles, LA', event)">📤 SHARE KLCH</button></div>
+<div class="card" data-search="KLIX New Orleans, LA, LA, Louisiana, Louisiana State"><div class="card-top"><strong>KLIX</strong><span class="badge">LA</span></div><div class="city">New Orleans, LA</div><div class="meta">KLIX — New Orleans, LA</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KLIX_loop.gif" alt="KLIX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KLIX</div><button class="share-btn" onclick="shareRadar('KLIX', 'New Orleans, LA', event)">📤 SHARE KLIX</button></div>
+<div class="card" data-search="KPOE Fort Polk, LA, LA, Louisiana, Louisiana State"><div class="card-top"><strong>KPOE</strong><span class="badge">LA</span></div><div class="city">Fort Polk, LA</div><div class="meta">KPOE — Fort Polk, LA</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KPOE_loop.gif" alt="KPOE radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KPOE</div><button class="share-btn" onclick="shareRadar('KPOE', 'Fort Polk, LA', event)">📤 SHARE KPOE</button></div>
+<div class="card" data-search="KSHV Shreveport, LA, LA, Louisiana, Louisiana State"><div class="card-top"><strong>KSHV</strong><span class="badge">LA</span></div><div class="city">Shreveport, LA</div><div class="meta">KSHV — Shreveport, LA</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KSHV_loop.gif" alt="KSHV radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KSHV</div><button class="share-btn" onclick="shareRadar('KSHV', 'Shreveport, LA', event)">📤 SHARE KSHV</button></div>
+<div class="ad-box"><div class="ad-label">Advertisement — After 4 Radars</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567808" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<div class="card" data-search="KDOX Dover AFB, DE, DE, Delaware, Delaware State"><div class="card-top"><strong>KDOX</strong><span class="badge">DE</span></div><div class="city">Dover AFB, DE</div><div class="meta">KDOX — Dover AFB, DE</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KDOX_loop.gif" alt="KDOX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KDOX</div><button class="share-btn" onclick="shareRadar('KDOX', 'Dover AFB, DE', event)">📤 SHARE KDOX</button></div>
+<div class="card" data-search="KEPZ El Paso, TX, TX, Texas, Texas State"><div class="card-top"><strong>KEPZ</strong><span class="badge">TX</span></div><div class="city">El Paso, TX</div><div class="meta">KEPZ — El Paso, TX</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KEPZ_loop.gif" alt="KEPZ radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KEPZ</div><button class="share-btn" onclick="shareRadar('KEPZ', 'El Paso, TX', event)">📤 SHARE KEPZ</button></div>
+<div class="card" data-search="KEVX Eglin AFB, FL, FL, Florida, Florida State"><div class="card-top"><strong>KEVX</strong><span class="badge">FL</span></div><div class="city">Eglin AFB, FL</div><div class="meta">KEVX — Eglin AFB, FL</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KEVX_loop.gif" alt="KEVX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KEVX</div><button class="share-btn" onclick="shareRadar('KEVX', 'Eglin AFB, FL', event)">📤 SHARE KEVX</button></div>
+<div class="card" data-search="KEMX Tucson, AZ, AZ, Arizona, Arizona State"><div class="card-top"><strong>KEMX</strong><span class="badge">AZ</span></div><div class="city">Tucson, AZ</div><div class="meta">KEMX — Tucson, AZ</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KEMX_loop.gif" alt="KEMX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KEMX</div><button class="share-btn" onclick="shareRadar('KEMX', 'Tucson, AZ', event)">📤 SHARE KEMX</button></div>
+<div class="ad-box"><div class="ad-label">Advertisement — After 4 Radars</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567808" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<div class="card" data-search="KESX Elko, NV, NV, Nevada, Nevada State"><div class="card-top"><strong>KESX</strong><span class="badge">NV</span></div><div class="city">Elko, NV</div><div class="meta">KESX — Elko, NV</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KESX_loop.gif" alt="KESX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KESX</div><button class="share-btn" onclick="shareRadar('KESX', 'Elko, NV', event)">📤 SHARE KESX</button></div>
+<div class="card" data-search="KVWX Evansville, IN, IN, Indiana, Indiana State"><div class="card-top"><strong>KVWX</strong><span class="badge">IN</span></div><div class="city">Evansville, IN</div><div class="meta">KVWX — Evansville, IN</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KVWX_loop.gif" alt="KVWX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KVWX</div><button class="share-btn" onclick="shareRadar('KVWX', 'Evansville, IN', event)">📤 SHARE KVWX</button></div>
+<div class="card" data-search="KAPX Gaylord, MI, MI, Michigan, Michigan State"><div class="card-top"><strong>KAPX</strong><span class="badge">MI</span></div><div class="city">Gaylord, MI</div><div class="meta">KAPX — Gaylord, MI</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KAPX_loop.gif" alt="KAPX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KAPX</div><button class="share-btn" onclick="shareRadar('KAPX', 'Gaylord, MI', event)">📤 SHARE KAPX</button></div>
+<div class="card" data-search="KGGW Glasgow, MT, MT, Montana, Montana State"><div class="card-top"><strong>KGGW</strong><span class="badge">MT</span></div><div class="city">Glasgow, MT</div><div class="meta">KGGW — Glasgow, MT</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KGGW_loop.gif" alt="KGGW radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KGGW</div><button class="share-btn" onclick="shareRadar('KGGW', 'Glasgow, MT', event)">📤 SHARE KGGW</button></div>
+<div class="ad-box"><div class="ad-label">Advertisement — After 4 Radars</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567808" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<div class="card" data-search="KAKX Extra Site KAKX, US, US, United States, United States State"><div class="card-top"><strong>KAKX</strong><span class="badge">US</span></div><div class="city">Extra Site KAKX, US</div><div class="meta">KAKX — Extra Site KAKX, US</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KAKX_loop.gif" alt="KAKX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KAKX</div><button class="share-btn" onclick="shareRadar('KAKX', 'Extra Site KAKX, US', event)">📤 SHARE KAKX</button></div>
+<div class="ad-box"><div class="ad-label">Advertisement — After 4 Radars</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567808" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<div class="card" data-search="KALX Extra Site KALX, US, US, United States, United States State"><div class="card-top"><strong>KALX</strong><span class="badge">US</span></div><div class="city">Extra Site KALX, US</div><div class="meta">KALX — Extra Site KALX, US</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KALX_loop.gif" alt="KALX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KALX</div><button class="share-btn" onclick="shareRadar('KALX', 'Extra Site KALX, US', event)">📤 SHARE KALX</button></div>
+<div class="card" data-search="KANX Extra Site KANX, US, US, United States, United States State"><div class="card-top"><strong>KANX</strong><span class="badge">US</span></div><div class="city">Extra Site KANX, US</div><div class="meta">KANX — Extra Site KANX, US</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KANX_loop.gif" alt="KANX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KANX</div><button class="share-btn" onclick="shareRadar('KANX', 'Extra Site KANX, US', event)">📤 SHARE KANX</button></div>
+<div class="card" data-search="KAOX Extra Site KAOX, US, US, United States, United States State"><div class="card-top"><strong>KAOX</strong><span class="badge">US</span></div><div class="city">Extra Site KAOX, US</div><div class="meta">KAOX — Extra Site KAOX, US</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KAOX_loop.gif" alt="KAOX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KAOX</div><button class="share-btn" onclick="shareRadar('KAOX', 'Extra Site KAOX, US', event)">📤 SHARE KAOX</button></div>
+<div class="card" data-search="KAQX Extra Site KAQX, US, US, United States, United States State"><div class="card-top"><strong>KAQX</strong><span class="badge">US</span></div><div class="city">Extra Site KAQX, US</div><div class="meta">KAQX — Extra Site KAQX, US</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KAQX_loop.gif" alt="KAQX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KAQX</div><button class="share-btn" onclick="shareRadar('KAQX', 'Extra Site KAQX, US', event)">📤 SHARE KAQX</button></div>
+<div class="ad-box"><div class="ad-label">Advertisement — After 4 Radars</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567808" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<div class="card" data-search="KASX Extra Site KASX, US, US, United States, United States State"><div class="card-top"><strong>KASX</strong><span class="badge">US</span></div><div class="city">Extra Site KASX, US</div><div class="meta">KASX — Extra Site KASX, US</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KASX_loop.gif" alt="KASX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KASX</div><button class="share-btn" onclick="shareRadar('KASX', 'Extra Site KASX, US', event)">📤 SHARE KASX</button></div>
+<div class="card" data-search="KAUX Extra Site KAUX, US, US, United States, United States State"><div class="card-top"><strong>KAUX</strong><span class="badge">US</span></div><div class="city">Extra Site KAUX, US</div><div class="meta">KAUX — Extra Site KAUX, US</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KAUX_loop.gif" alt="KAUX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KAUX</div><button class="share-btn" onclick="shareRadar('KAUX', 'Extra Site KAUX, US', event)">📤 SHARE KAUX</button></div>
+<div class="card" data-search="KAVX Extra Site KAVX, US, US, United States, United States State"><div class="card-top"><strong>KAVX</strong><span class="badge">US</span></div><div class="city">Extra Site KAVX, US</div><div class="meta">KAVX — Extra Site KAVX, US</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KAVX_loop.gif" alt="KAVX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KAVX</div><button class="share-btn" onclick="shareRadar('KAVX', 'Extra Site KAVX, US', event)">📤 SHARE KAVX</button></div>
+<div class="card" data-search="KAWX Extra Site KAWX, US, US, United States, United States State"><div class="card-top"><strong>KAWX</strong><span class="badge">US</span></div><div class="city">Extra Site KAWX, US</div><div class="meta">KAWX — Extra Site KAWX, US</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KAWX_loop.gif" alt="KAWX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KAWX</div><button class="share-btn" onclick="shareRadar('KAWX', 'Extra Site KAWX, US', event)">📤 SHARE KAWX</button></div>
+<div class="ad-box"><div class="ad-label">Advertisement — After 4 Radars</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567808" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<div class="card" data-search="KAXX Extra Site KAXX, US, US, United States, United States State"><div class="card-top"><strong>KAXX</strong><span class="badge">US</span></div><div class="city">Extra Site KAXX, US</div><div class="meta">KAXX — Extra Site KAXX, US</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KAXX_loop.gif" alt="KAXX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KAXX</div><button class="share-btn" onclick="shareRadar('KAXX', 'Extra Site KAXX, US', event)">📤 SHARE KAXX</button></div>
+<div class="card" data-search="KAYX Extra Site KAYX, US, US, United States, United States State"><div class="card-top"><strong>KAYX</strong><span class="badge">US</span></div><div class="city">Extra Site KAYX, US</div><div class="meta">KAYX — Extra Site KAYX, US</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KAYX_loop.gif" alt="KAYX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KAYX</div><button class="share-btn" onclick="shareRadar('KAYX', 'Extra Site KAYX, US', event)">📤 SHARE KAYX</button></div>
+<div class="card" data-search="KAZX Extra Site KAZX, US, US, United States, United States State"><div class="card-top"><strong>KAZX</strong><span class="badge">US</span></div><div class="city">Extra Site KAZX, US</div><div class="meta">KAZX — Extra Site KAZX, US</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KAZX_loop.gif" alt="KAZX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KAZX</div><button class="share-btn" onclick="shareRadar('KAZX', 'Extra Site KAZX, US', event)">📤 SHARE KAZX</button></div>
+<div class="card" data-search="KBAX Extra Site KBAX, US, US, United States, United States State"><div class="card-top"><strong>KBAX</strong><span class="badge">US</span></div><div class="city">Extra Site KBAX, US</div><div class="meta">KBAX — Extra Site KBAX, US</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KBAX_loop.gif" alt="KBAX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KBAX</div><button class="share-btn" onclick="shareRadar('KBAX', 'Extra Site KBAX, US', event)">📤 SHARE KBAX</button></div>
+<div class="ad-box"><div class="ad-label">Advertisement — After 4 Radars</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567808" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<div class="card" data-search="KBCX Extra Site KBCX, US, US, United States, United States State"><div class="card-top"><strong>KBCX</strong><span class="badge">US</span></div><div class="city">Extra Site KBCX, US</div><div class="meta">KBCX — Extra Site KBCX, US</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KBCX_loop.gif" alt="KBCX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KBCX</div><button class="share-btn" onclick="shareRadar('KBCX', 'Extra Site KBCX, US', event)">📤 SHARE KBCX</button></div>
+<div class="card" data-search="KBDX Extra Site KBDX, US, US, United States, United States State"><div class="card-top"><strong>KBDX</strong><span class="badge">US</span></div><div class="city">Extra Site KBDX, US</div><div class="meta">KBDX — Extra Site KBDX, US</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://radar.weather.gov/ridge/standard/KBDX_loop.gif" alt="KBDX radar"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full KBDX</div><button class="share-btn" onclick="shareRadar('KBDX', 'Extra Site KBDX, US', event)">📤 SHARE KBDX</button></div>
+</div>
+</div>
+</div>
+<div id="tab-satellite" class="tab-content">
+<h2 style="margin:10px 0;font-size:20px">🛰️ GOES Satellite — 12 LIVE COLOR GIF LOOPS — ALL WORKING!</h2>
+<p class="subtitle">12 LIVE COLOR GIF LOOPS — ALL COLOR GEOCOLOR — NO MORE BLACK BOXES!</p>
+<div class="ad-box"><div class="ad-label">Advertisement — Top Satellite</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<div class="grid">
+<div class="card" data-search="GOES-EAST CONUS GeoColor"><div class="card-top"><strong>GOES-EAST</strong><span class="badge">LIVE GIF</span></div><div class="city">CONUS GeoColor — LIVE LOOP</div><div class="meta">GOES-16 — East Coast to Midwest — COLOR</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://cdn.star.nesdis.noaa.gov/GOES16/ABI/CONUS/GEOCOLOR/GOES16-CONUS-GEOCOLOR-625x375.gif" alt="GOES-EAST CONUS GeoColor"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full Screen</div><button class="share-btn" onclick="shareRadar('GOES-EAST', 'CONUS GeoColor — LIVE LOOP', event)">SHARE SATELLITE</button></div>
+<div class="card" data-search="GOES-WEST CONUS GeoColor"><div class="card-top"><strong>GOES-WEST</strong><span class="badge">LIVE GIF</span></div><div class="city">CONUS GeoColor — LIVE LOOP</div><div class="meta">GOES-18 — West Coast to Rockies — COLOR</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://cdn.star.nesdis.noaa.gov/GOES18/ABI/CONUS/GEOCOLOR/GOES18-CONUS-GEOCOLOR-625x375.gif" alt="GOES-WEST CONUS GeoColor"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full Screen</div><button class="share-btn" onclick="shareRadar('GOES-WEST', 'CONUS GeoColor — LIVE LOOP', event)">SHARE SATELLITE</button></div>
+<div class="card" data-search="GOES-East Northeast Sector"><div class="card-top"><strong>GOES-EAST NE</strong><span class="badge">COLOR LOOP</span></div><div class="city">Northeast Sector — LIVE LOOP</div><div class="meta">GOES-16 — East Coast Color</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/ne/GEOCOLOR/GOES16-NE-GEOCOLOR-600x600.gif" alt="GOES-East Northeast Sector"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full Screen</div><button class="share-btn" onclick="shareRadar('GOES-EAST NE', 'Northeast Sector — LIVE LOOP', event)">SHARE SATELLITE</button></div>
+<div class="card" data-search="GOES-East Southeast Sector"><div class="card-top"><strong>GOES-EAST SE</strong><span class="badge">COLOR LOOP</span></div><div class="city">Southeast Sector — LIVE LOOP</div><div class="meta">GOES-16 — Southeast US Color</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/se/GEOCOLOR/GOES16-SE-GEOCOLOR-600x600.gif" alt="GOES-East Southeast Sector"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full Screen</div><button class="share-btn" onclick="shareRadar('GOES-EAST SE', 'Southeast Sector — LIVE LOOP', event)">SHARE SATELLITE</button></div>
+<div class="card" data-search="GOES-East Great Lakes Sector"><div class="card-top"><strong>GOES-EAST CGL</strong><span class="badge">COLOR LOOP</span></div><div class="city">Great Lakes — LIVE LOOP</div><div class="meta">GOES-16 — Great Lakes Color</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/cgl/GEOCOLOR/GOES16-CGL-GEOCOLOR-600x600.gif" alt="GOES-East Great Lakes"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full Screen</div><button class="share-btn" onclick="shareRadar('GOES-EAST CGL', 'Great Lakes — LIVE LOOP', event)">SHARE SATELLITE</button></div>
+<div class="card" data-search="GOES-East Upper Midwest"><div class="card-top"><strong>GOES-EAST UMV</strong><span class="badge">COLOR LOOP</span></div><div class="city">Upper Midwest — LIVE LOOP</div><div class="meta">GOES-16 — Midwest Color</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/umv/GEOCOLOR/GOES16-UMV-GEOCOLOR-600x600.gif" alt="GOES-East Upper Midwest"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full Screen</div><button class="share-btn" onclick="shareRadar('GOES-EAST UMV', 'Upper Midwest — LIVE LOOP', event)">SHARE SATELLITE</button></div>
+<div class="card" data-search="GOES-West Northwest Sector"><div class="card-top"><strong>GOES-WEST NW</strong><span class="badge">COLOR LOOP</span></div><div class="city">Northwest — LIVE LOOP</div><div class="meta">GOES-18 — Pacific NW Color</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://cdn.star.nesdis.noaa.gov/GOES18/ABI/SECTOR/nw/GEOCOLOR/GOES18-NW-GEOCOLOR-600x600.gif" alt="GOES-West Northwest Sector"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full Screen</div><button class="share-btn" onclick="shareRadar('GOES-WEST NW', 'Northwest — LIVE LOOP', event)">SHARE SATELLITE</button></div>
+<div class="card" data-search="GOES-West West US"><div class="card-top"><strong>GOES-WEST WUS</strong><span class="badge">COLOR LOOP</span></div><div class="city">Western US — LIVE LOOP</div><div class="meta">GOES-18 — Western US Color</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://cdn.star.nesdis.noaa.gov/GOES18/ABI/SECTOR/wus/GEOCOLOR/GOES18-WUS-GEOCOLOR-600x600.gif" alt="GOES-West West US"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full Screen</div><button class="share-btn" onclick="shareRadar('GOES-WEST WUS', 'Western US — LIVE LOOP', event)">SHARE SATELLITE</button></div>
+<div class="card" data-search="GOES-West Pacific Southwest"><div class="card-top"><strong>GOES-WEST PSW</strong><span class="badge">COLOR LOOP</span></div><div class="city">Pacific SW — LIVE LOOP</div><div class="meta">GOES-18 — SoCal Color</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://cdn.star.nesdis.noaa.gov/GOES18/ABI/SECTOR/psw/GEOCOLOR/GOES18-PSW-GEOCOLOR-600x600.gif" alt="GOES-West Pacific Southwest"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full Screen</div><button class="share-btn" onclick="shareRadar('GOES-WEST PSW', 'Pacific SW — LIVE LOOP', event)">SHARE SATELLITE</button></div>
+<div class="card" data-search="GOES-West Southwest"><div class="card-top"><strong>GOES-WEST SW</strong><span class="badge">COLOR LOOP</span></div><div class="city">Southwest — LIVE LOOP</div><div class="meta">GOES-18 — Desert SW Color</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://cdn.star.nesdis.noaa.gov/GOES18/ABI/SECTOR/sw/GEOCOLOR/GOES18-SW-GEOCOLOR-600x600.gif" alt="GOES-West Southwest"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full Screen</div><button class="share-btn" onclick="shareRadar('GOES-WEST SW', 'Southwest — LIVE LOOP', event)">SHARE SATELLITE</button></div>
+<div class="card" data-search="GOES-East Full Disk"><div class="card-top"><strong>GOES-EAST FD</strong><span class="badge">LIVE GIF</span></div><div class="city">Full Disk GeoColor — LIVE LOOP</div><div class="meta">GOES-16 — Full Disk Color</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://cdn.star.nesdis.noaa.gov/GOES16/ABI/FD/GEOCOLOR/GOES16-FD-GEOCOLOR-800x800.gif" alt="GOES-East Full Disk"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full Screen</div><button class="share-btn" onclick="shareRadar('GOES-EAST FD', 'Full Disk GeoColor — LIVE LOOP', event)">SHARE SATELLITE</button></div>
+<div class="card" data-search="GOES-West Full Disk"><div class="card-top"><strong>GOES-WEST FD</strong><span class="badge">LIVE GIF</span></div><div class="city">Full Disk GeoColor — LIVE LOOP</div><div class="meta">GOES-18 — Full Disk Color</div><div class="radar-wrap"><img class="radar-img" loading="lazy" src="https://cdn.star.nesdis.noaa.gov/GOES18/ABI/FD/GEOCOLOR/GOES18-FD-GEOCOLOR-800x800.gif" alt="GOES-West Full Disk"></div><div class="meta enlarge-btn">TAP TO ENLARGE → Full Screen</div><button class="share-btn" onclick="shareRadar('GOES-WEST FD', 'Full Disk GeoColor — LIVE LOOP', event)">SHARE SATELLITE</button></div>
+</div>
+</div>
+<div class="ad-box"><div class="ad-label">Advertisement — Bottom Satellite</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+</div>
+<div id="tab-shop" class="tab-content">
+<h2 style="margin:10px 0;font-size:20px">🛒 Storm-Ready Shop — FIXED IMAGES</h2>
+<p class="subtitle">Batteries, flashlights, generators, water, tarps — everything people buy BEFORE a storm.</p>
+<div class="aff-note">⚡ <strong>YOUR AMAZON TAG:</strong> Find <code>YOURTAG-20</code> and replace with your ID. Example: breakingweather-20</div>
+<div class="shop-grid">
+
+<div class="cat-label">🔋 POWER & BATTERIES — CHEAPEST</div>
+<div class="shop-card"><div class="shop-title">AA Batteries 48-Pack</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=AA+48-Pack+Duracell" alt="AA Batteries"><div class="shop-price">$19.97</div><div class="shop-desc">Duracell Coppertop - storm essential</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=duracell+aa+48+pack&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">AAA Batteries 36-Pack</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=AAA+36-Pack" alt="AAA Batteries"><div class="shop-price">$14.97</div><div class="shop-desc">For remotes, flashlights - cheap</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=aaa+batteries+36+pack&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">LED Flashlight 2-Pack</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=LED+Flashlight+2-Pack" alt="Flashlight"><div class="shop-price">$12.99</div><div class="shop-desc">900 lumen, waterproof, 2-pack</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=led+flashlight+2+pack+cheap&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">LED Lantern Battery Powered</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=LED+Lantern" alt="Lantern"><div class="shop-price">$18.99</div><div class="shop-desc">Collapsible lantern - power outage</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=led+camping+lantern+battery&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">20000mAh Power Bank</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=20000mAh+Power+Bank" alt="Power Bank"><div class="shop-price">$21.99</div><div class="shop-desc">Charge phone 5x during outage</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=20000mah+power+bank+cheap&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">Hand Crank Weather Radio</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=NOAA+Weather+Radio" alt="Radio"><div class="shop-price">$24.99</div><div class="shop-desc">NOAA radio + flashlight + power bank</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=hand+crank+weather+radio+noaa&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="cat-label">💧 WATER & FOOD — CHEAPEST</div>
+<div class="shop-card"><div class="shop-title">5-Gallon Water Container</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=5-Gallon+Water+Jug" alt="Water"><div class="shop-price">$14.99</div><div class="shop-desc">Collapsible water jug - hurricane must</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=5+gallon+water+container+collapsible&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">Water Filter Straw 2-Pack</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=Water+Filter+Straw" alt="Filter"><div class="shop-price">$16.99</div><div class="shop-desc">LifeStraw - drink any water</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=water+filter+straw+lifestraw&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">24 Pack Bottled Water Case</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=24+Pack+Water" alt="Water Case"><div class="shop-price">$7.99</div><div class="shop-desc">Emergency water - cheapest</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=bottled+water+24+pack&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">MRE Emergency Meals 12-Pack</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=MRE+12-Pack+Meals" alt="MRE"><div class="shop-price">$28.99</div><div class="shop-desc">72 hour food supply - no cooking</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=mre+meals+12+pack+emergency&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">Manual Can Opener</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=Manual+Can+Opener" alt="Opener"><div class="shop-price">$6.99</div><div class="shop-desc">P-51 can opener - power outage</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=manual+can+opener+p51&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">5-Gallon Bucket with Lid</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=5-Gallon+Bucket" alt="Bucket"><div class="shop-price">$9.99</div><div class="shop-desc">Food storage, water, toilet - cheap</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=5+gallon+bucket+with+lid&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="cat-label">🏠 SHELTER & SAFETY — CHEAPEST</div>
+<div class="shop-card"><div class="shop-title">Blue Tarp 10x12 ft</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=Blue+Tarp+10x12" alt="Tarp"><div class="shop-price">$12.99</div><div class="shop-desc">Waterproof tarp - roof leak fix</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=blue+tarp+10x12+waterproof&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">Duct Tape Heavy Duty</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=Gorilla+Duct+Tape" alt="Tape"><div class="shop-price">$8.99</div><div class="shop-desc">Gorilla duct tape - fix anything</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=gorilla+duct+tape+heavy+duty&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">First Aid Kit 100 Piece</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=First+Aid+100pc" alt="First Aid"><div class="shop-price">$9.99</div><div class="shop-desc">Emergency first aid - cheapest</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=first+aid+kit+100+piece+cheap&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">Emergency Whistle 4-Pack</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=Emergency+Whistle" alt="Whistle"><div class="shop-price">$5.99</div><div class="shop-desc">Loud survival whistle - rescue</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=emergency+whistle+4+pack&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">Rain Poncho Disposable 10-Pack</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=Rain+Poncho+10Pack" alt="Poncho"><div class="shop-price">$11.99</div><div class="shop-desc">Emergency rain ponchos - family pack</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=disposable+rain+poncho+10+pack&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">Work Gloves Heavy Duty</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=Work+Gloves" alt="Gloves"><div class="shop-price">$13.99</div><div class="shop-desc">Leather work gloves - debris cleanup</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=leather+work+gloves+heavy+duty&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="cat-label">🔦 TOOLS & LIGHT — CHEAPEST</div>
+<div class="shop-card"><div class="shop-title">Glow Sticks 24-Pack</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=Glow+Sticks+24Pack" alt="Glow"><div class="shop-price">$8.99</div><div class="shop-desc">12 hour glow sticks - no battery needed</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=glow+sticks+24+pack+emergency&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">Batteries D-Cell 12-Pack</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=D-Cell+12Pack" alt="D Cell"><div class="shop-price">$12.99</div><div class="shop-desc">For big flashlights, radios</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=d+cell+batteries+12+pack&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">Portable Camp Stove</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=Portable+Camp+Stove" alt="Stove"><div class="shop-price">$22.99</div><div class="shop-desc">Butane stove - cook without power</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=portable+camping+stove+butane&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">Extension Cord 50ft Outdoor</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=Extension+Cord+50ft" alt="Cord"><div class="shop-price">$18.99</div><div class="shop-desc">Heavy duty extension - generator ready</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=extension+cord+50ft+outdoor+heavy+duty&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">Battery Charger AA AAA</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=Battery+Charger" alt="Charger"><div class="shop-price">$15.99</div><div class="shop-desc">Fast charger - reuse batteries</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=battery+charger+aa+aaa&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+<div class="shop-card"><div class="shop-title">Solar Phone Charger</div><img class="shop-img" src="https://placehold.co/400x300/111111/FFD700?text=Solar+Phone+Charger" alt="Solar"><div class="shop-price">$19.99</div><div class="shop-desc">Solar power bank - no outlet needed</div><button class="buy-btn" onclick="window.open('https://www.amazon.com/s?k=solar+phone+charger+power+bank&tag=YOURTAG-20','_blank')">BUY — CHEAPEST</button></div>
+
+</div>
+</div>
+<div id="modal" onclick="closeModal()"><div class="modal-ad"><div class="ad-label">Advertisement — Enlarge View</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567891" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div><img id="modal-img" src=""><div id="modal-title"></div><button id="modal-close">✕ CLOSE — Tap Anywhere to Close</button></div>
+<div class="bonus-modal" id="bonus-modal" onclick="closeBonus()"><div class="bonus-box"><h2 style="color:#FFD700;font-size:22px;margin-bottom:10px">🎁 BONUS UNLOCKED!</h2><p style="color:#FFEC8B;margin-bottom:12px">You've watched 3 radars! Here's a bonus ad - Keep watching for more bonuses!</p><div class="ad-box" style="margin:10px 0"><div class="ad-label">BONUS Advertisement — Every 3 Watches</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567893" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div><button onclick="closeBonus()" style="margin-top:12px;background:linear-gradient(180deg,#FFD700,#D4AF37);color:#000;border:none;padding:12px 24px;border-radius:999px;font-weight:900;cursor:pointer">CONTINUE WATCHING →</button></div></div>
+
+<div class="dss-modal" id="dss-modal" onclick="if(event.target===this) closeDss()">
+<div class="dss-box">
+<div class="dss-header"><span id="dss-title">DSS Severe Weather Packet</span><button onclick="closeDss()" style="background:#000;color:#FFD700;border:2px solid #000;padding:6px 12px;border-radius:999px;font-weight:900;cursor:pointer">✕ CLOSE</button></div>
+<div class="ad-box" style="margin:0;border-radius:0;height:100px!important;min-height:100px!important"><div class="ad-label">Advertisement — DSS Packet Top — Severe Weather</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<iframe id="dss-frame" class="dss-frame" src="" title="DSS Packet PDF"></iframe>
+<div class="ad-box" style="margin:0;border-radius:0;height:100px!important;min-height:100px!important"><div class="ad-label">Advertisement — DSS Packet Bottom — Severe Weather</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567892" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+</div>
+</div>
+
+<div class="sticky-ad" id="sticky-ad"><div class="ad-label">Advertisement — Sticky Bottom — Always Playing While Viewing</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567892" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<script>
+let watchCount = parseInt(localStorage.getItem('radarWatchCount')||'0');
+async function shareRadar(code, city, e){
+  if(e) e.stopPropagation();
+  const btn=e?e.currentTarget:null;
+  const originalUrl=location.origin+location.pathname+'?radar='+code;
+  let shareUrl=originalUrl;
+  try{
+    if(btn){btn.dataset.orig=btn.innerHTML;btn.innerHTML='⏳';}
+    const res=await fetch('https://tinyurl.com/api-create.php?url='+encodeURIComponent(originalUrl));
+    if(res.ok){const tiny=(await res.text()).trim();if(tiny.startsWith('http')) shareUrl=tiny;}
+  }catch(err){}
+  const title=city+' Live Radar';
+  if(btn&&btn.dataset.orig) btn.innerHTML=btn.dataset.orig;
+  // CLEAN SHARE - only area, no V3, no GitHub text in title
+  if(navigator.share){
+    try{
+      await navigator.share({title:title,text:title,url:shareUrl});
+    }catch(err){
+      // fallback copy
+      navigator.clipboard.writeText(title+' - '+shareUrl);
+      if(btn){const o=btn.innerHTML;btn.innerHTML='✅ COPIED!';setTimeout(()=>btn.innerHTML=o,2000);}
+    }
+  } else {
+    const cleanText = title;
+    navigator.clipboard.writeText(cleanText+' - '+shareUrl).then(()=>{if(btn){const o=btn.innerHTML;btn.innerHTML='✅ COPIED!';setTimeout(()=>btn.innerHTML=o,2000);}});
+  }
+}
+function openModal(img){
+  if(!img) return;
+  const card=img.closest('.card');
+  const title=card?card.querySelector('.city').innerText:'Live Radar';
+  document.getElementById('modal-img').src=img.src.split('?')[0];
+  document.getElementById('modal-title').innerText=title+' — LIVE RADAR FULL SCREEN';
+  document.getElementById('modal').style.display='flex';
+  document.body.style.overflow='hidden';
+  try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}
+  watchCount++;
+  localStorage.setItem('radarWatchCount', watchCount);
+  if(watchCount % 3 === 0){
+    setTimeout(()=>{showBonus();}, 2000);
+  }
+}
+function showBonus(){
+  document.getElementById('bonus-modal').style.display='flex';
+  try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}
+}
+function closeBonus(){document.getElementById('bonus-modal').style.display='none';}
+function closeModal(){document.getElementById('modal').style.display='none';document.getElementById('modal-img').src='';document.body.style.overflow='';}
+
+// Auto add DSS button to every radar card
+document.addEventListener('DOMContentLoaded',()=>{
+  setTimeout(()=>{
+    document.querySelectorAll('#tab-radar.card').forEach(card=>{
+      const strong = card.querySelector('strong');
+      const cityEl = card.querySelector('.city');
+      if(!strong) return;
+      if(card.querySelector('.dss-btn')) return;
+      const code = strong.innerText.trim();
+      const city = cityEl? cityEl.innerText.trim() : code;
+      // WFO code = last 3 letters of radar ID (KDMX -> DMX)
+      let wfo = code;
+      if(code.length===4 && code.startsWith('K')) wfo = code.substring(1);
+      if(code.length===4 && code.startsWith('P')) wfo = code.substring(1);
+      const btn = document.createElement('button');
+      btn.className = 'dss-btn';
+      btn.innerHTML = '📄 DSS Severe Weather Packet — '+wfo;
+      btn.onclick = (e)=>{e.stopPropagation(); openDssPacket(wfo, city);};
+      card.appendChild(btn);
+    });
+  }, 500);
+});
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.card').forEach(card=>{
+    const img=card.querySelector('.radar-img');
+    const wrap=card.querySelector('.radar-wrap');
+    const btn=card.querySelector('.enlarge-btn');
+    const h=(e)=>{e.stopPropagation();openModal(img);};
+    if(img) img.addEventListener('click',h);
+    if(wrap) wrap.addEventListener('click',h);
+    if(btn) btn.addEventListener('click',h);
+  });
+});
+
+const inp=document.getElementById('search');
+let searchAd = null;
+if(inp){inp.addEventListener('input',()=>{
+const q=inp.value.toLowerCase().trim();
+const qNorm = q.replace(/[^a-z0-9]/g,'');
+let visible=0;
+document.querySelectorAll('#tab-radar.card').forEach(c=>{
+const s=(c.getAttribute('data-search')||'').toLowerCase();
+const show=(q===''||s.includes(q));
+c.style.display=show?'':'none';
+if(show) visible++;
+});
+document.querySelectorAll('#tab-radar.ad-box').forEach(a=>{
+a.style.display='block';
+});
+document.querySelectorAll('#tab-satellite.ad-box').forEach(a=>{
+a.style.display='block';
+});
+document.querySelectorAll('#tab-satellite.card').forEach(c=>{
+const s=(c.getAttribute('data-search')||'').toLowerCase();
+const show=(q===''||s.includes(q));
+c.style.display=show?'':'none';
+});
+// Search ad management
+const grid = document.querySelector('#tab-radar.grid') || document.querySelector('#content-root.grid');
+if(q!== ''){
+  if(!searchAd){
+    searchAd = document.createElement('div');
+    searchAd.id = 'search-ad';
+    searchAd.className = 'ad-box';
+    searchAd.style.borderColor = '#FFD700';
+    searchAd.style.gridColumn = '1 / -1';
+    searchAd.style.background = 'linear-gradient(180deg,#1a1500,#000)';
+    searchAd.innerHTML = '<div class="ad-label">🔍 Advertisement — Search Results for '+q.toUpperCase()+' — '+visible+' found</div><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8107327731283027" data-ad-slot="1234567808" data-ad-format="auto" data-full-width-responsive="true"></ins><sc'+'ript>(adsbygoogle = window.adsbygoogle || []).push({});</sc'+'ript></div>';
+    if(grid) grid.prepend(searchAd);
+  } else {
+    searchAd.querySelector('.ad-label').innerText = '🔍 Advertisement — Search Results for '+q.toUpperCase()+' — '+visible+' found';
+    searchAd.style.display='block';
+    if(grid && searchAd.parentNode!== grid) grid.prepend(searchAd);
+  }
+  try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}
+} else {
+  if(searchAd) searchAd.style.display='none';
+}
+});}
+
+setInterval(()=>{document.querySelectorAll('.radar-img').forEach(img=>{if(img.offsetParent!==null){const b=img.src.split('?')[0];if(b.includes('_loop.gif') || b.includes('.gif')) img.src=b+'?t='+Date.now();}});},300000);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeBonus();}});
+
+// CLEAN TITLE FOR SHARE PREVIEW - update OG when radar param present
+const params=new URLSearchParams(location.search);const want=params.get('radar');
+if(want){
+  const cleanTitle = want + ' Live Radar';
+  document.title = cleanTitle;
+  const og = document.querySelector('meta[property="og:title"]');
+  if(og) og.setAttribute('content', cleanTitle);
+}
+
+const params2=new URLSearchParams(location.search);const want2=params2.get('radar');if(want2){const t=[...document.querySelectorAll('.card')].find(c=>c.querySelector('strong')?.innerText===want2);if(t){setTimeout(()=>{t.scrollIntoView({behavior:'smooth',block:'center'});t.style.borderColor='#5b8def';},500);}}
+
+function openDssPacket(wfo, city){
+  const wfoLow = wfo.toLowerCase().replace('k','');
+  // wfo like KDMX -> dmx
+  const clean = wfoLow.startsWith('k')? wfoLow.substring(1) : wfoLow;
+  // Actually KDMX -> dmx, first char is k, so remove first if length 4
+  let code = wfo.toLowerCase();
+  if(code.startsWith('k') && code.length===4) code = code.substring(1);
+  if(code.length===4 && code.startsWith('p')) code = code.substring(1); // for PA etc
+  const pdfUrl = 'https://www.weather.gov/media/'+code+'/DssPacket.pdf';
+  const fallback = 'https://www.weather.gov/media/dmx/DssPacket.pdf';
+  const title = city + ' — DSS Severe Weather Packet ('+code.toUpperCase()+')';
+  document.getElementById('dss-title').innerText = title;
+  const frame = document.getElementById('dss-frame');
+  // Try direct PDF, if fails we show fallback via Google viewer
+  frame.src = pdfUrl;
+  document.getElementById('dss-modal').style.display='flex';
+  document.body.style.overflow='hidden';
+  try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}
+  // Check after 3s if iframe failed (simple fallback logic - show note in title if needed)
+  setTimeout(()=>{
+    // If still loading error, try google docs viewer with fallback
+    if(!frame.contentWindow || frame.contentDocument?.body?.innerHTML?.includes('404')){
+      frame.src = 'https://docs.google.com/gview?embedded=1&url='+encodeURIComponent(fallback);
+    }
+  }, 2500);
+}
+function openMainDss(){
+  openDssPacket('dmx','Des Moines, IA — SAMPLE DSS PACKET');
+}
+function closeDss(){
+  document.getElementById('dss-modal').style.display='none';
+  document.getElementById('dss-frame').src='';
+  document.body.style.overflow='';
+}
+
+function switchTab(name){
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  const target = document.getElementById('tab-'+name);
+  if(target) target.classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    if(btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'"+name+"'")) btn.classList.add('active');
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
